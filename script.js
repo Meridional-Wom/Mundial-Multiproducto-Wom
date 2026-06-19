@@ -1,197 +1,175 @@
+/* =========================
+   DATOS DE PRUEBA
+========================= */
+
 const tiendas = [
-  "Sucursal Villarrica",
-  "Sucursal Valdivia",
+  "Castro",
+  "Ancud",
+  "Osorno",
+  "Valdivia",
+  "Puerto Varas",
+  "Puerto Montt",
+  "Paseo Costanera",
+  "Villarrica",
   "Kiosco Plaza Los Ríos",
-  "Sucursal Osorno",
-  "Sucursal Puerto Varas",
-  "Sucursal Puerto Montt Centro",
-  "Sucursal Paseo Costanera",
-  "Sucursal Ancud",
-  "Sucursal Castro",
   "Kiosco Mall Castro"
 ];
 
-const jornadas = [
-  {
-    jornada: 1,
-    texto: "Viernes 19 de junio",
-    fase: "Fase 1: Activación",
-    condicion: "Mínimo 1 WOMGO vendido",
-    partidos: [
-      ["Estados Unidos", "Australia"],
-      ["Escocia", "Marruecos"],
-      ["Brasil", "Haití"],
-      ["Turquía", "Paraguay"]
-    ]
-  },
-  {
-    jornada: 2,
-    texto: "Lunes 22 de junio",
-    fase: "Fase 1: Activación",
-    condicion: "Mínimo 1 WOMGO vendido",
-    partidos: [
-      ["Argentina", "Austria"],
-      ["Francia", "Irak"],
-      ["Noruega", "Senegal"],
-      ["Jordania", "Argelia"]
-    ]
-  },
-  {
-    jornada: 3,
-    texto: "Martes 23 de junio",
-    fase: "Fase 2: Presión",
-    condicion: "50% o más de cumplimiento WOMGO",
-    partidos: [
-      ["Portugal", "Uzbekistán"],
-      ["Inglaterra", "Ghana"],
-      ["Panamá", "Croacia"],
-      ["Colombia", "RD Congo"]
-    ]
-  },
-  {
-    jornada: 4,
-    texto: "Miércoles 24 de junio",
-    fase: "Fase 2: Presión",
-    condicion: "50% o más de cumplimiento WOMGO",
-    partidos: [
-      ["Suiza", "Canadá"],
-      ["Bosnia y Herzegovina", "Qatar"],
-      ["Escocia", "Brasil"],
-      ["Marruecos", "Haití"],
-      ["Chequia", "México"],
-      ["Sudáfrica", "Corea del Sur"]
-    ]
-  },
-  {
-    jornada: 5,
-    texto: "Jueves 25 de junio",
-    fase: "Fase 3: Esprint",
-    condicion: "80% o más de cumplimiento WOMGO",
-    partidos: [
-      ["Ecuador", "Alemania"],
-      ["Curazao", "Costa de Marfil"],
-      ["Túnez", "Países Bajos"],
-      ["Japón", "Suecia"],
-      ["Turquía", "Estados Unidos"],
-      ["Paraguay", "Australia"]
-    ]
-  },
-  {
-    jornada: 6,
-    texto: "Viernes 26 de junio",
-    fase: "Fase 3: Esprint",
-    condicion: "80% o más de cumplimiento WOMGO",
-    partidos: [
-      ["Noruega", "Francia"],
-      ["Senegal", "Irak"],
-      ["Uruguay", "España"],
-      ["Cabo Verde", "Arabia Saudita"],
-      ["Nueva Zelanda", "Bélgica"],
-      ["Egipto", "Irán"]
-    ]
-  },
-  {
-    jornada: 7,
-    texto: "Martes 30 de junio",
-    fase: "Fase 4: Gran Final",
-    condicion: "100% cumplimiento WOMGO",
-    partidos: []
-  }
+const jornadaActual = {
+  numero: 1,
+  fase: "Fase 1: Activación",
+  fecha: "Viernes 19 de junio",
+  cierre: "13:00",
+  condicion: "Mínimo 1 WOMGO vendido",
+  partidos: [
+    { hora:"12:00", local:"Estados Unidos", visita:"Australia", estadio:"Estadio SoFi" },
+    { hora:"15:00", local:"Escocia", visita:"Marruecos", estadio:"Lincoln Financial Field" },
+    { hora:"18:00", local:"Brasil", visita:"Haití", estadio:"Hard Rock Stadium" },
+    { hora:"21:00", local:"Turquía", visita:"Paraguay", estadio:"Mercedes-Benz Stadium" }
+  ]
+};
+
+const metasDia = [
+  { tienda:"Castro", meta:8, avance:5, condicion:true },
+  { tienda:"Ancud", meta:5, avance:2, condicion:false },
+  { tienda:"Osorno", meta:10, avance:7, condicion:true },
+  { tienda:"Valdivia", meta:12, avance:9, condicion:true },
+  { tienda:"Puerto Montt", meta:9, avance:4, condicion:false }
 ];
 
-let jornadaActual = jornadas[0];
-let apuestasLocales = JSON.parse(localStorage.getItem("apuestas_wom") || "[]");
+const copaPizza = [
+  { tienda:"Castro", pizzas:3 },
+  { tienda:"Osorno", pizzas:2 },
+  { tienda:"Valdivia", pizzas:1 },
+  { tienda:"Ancud", pizzas:0 },
+  { tienda:"Puerto Varas", pizzas:0 }
+];
+
+let apuestas = JSON.parse(localStorage.getItem("apuestas_wom") || "[]");
 let apiUrl = localStorage.getItem("api_wom") || "";
+
+/* =========================
+   INICIO
+========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
   cargarInicio();
-  cargarTiendas();
-  cargarFormularioApuesta();
+  cargarApuesta();
   cargarPronosticos();
   cargarMarcador();
   cargarCopaPizza();
-  iniciarContador();
+  cargarAvance();
   showSection("inicio");
 });
 
+/* =========================
+   NAVEGACIÓN
+========================= */
+
 function showSection(id){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".screen").forEach(s => {
+    s.classList.remove("active");
+  });
+
   const section = document.getElementById(id);
   if(section) section.classList.add("active");
-  window.scrollTo({top:0, behavior:"smooth"});
+
+  window.scrollTo({ top:0, behavior:"smooth" });
 }
 
 function admin(){
-  const clave = prompt("Ingrese código de administrador");
+  const clave = prompt("Código administrador");
+
   if(clave !== "Meridional"){
     alert("Código incorrecto");
     return;
   }
+
   showSection("adminPanel");
 }
 
+/* =========================
+   CARGA INICIO
+========================= */
+
 function cargarInicio(){
-  const jornada = document.getElementById("jornadaActual");
-  const condicion = document.getElementById("condicionDia");
+  setText("jornadaActual", `${jornadaActual.numero} de 7`);
+  setText("faseActual", jornadaActual.fase);
+  setText("fechaJornada", jornadaActual.fecha);
+  setText("condicionDia", jornadaActual.condicion);
 
-  if(jornada) jornada.textContent = `${jornadaActual.jornada} de 7`;
-  if(condicion) condicion.textContent = jornadaActual.condicion;
-
-  const cont = document.getElementById("partidosHoy");
-  if(!cont) return;
-
-  if(!jornadaActual.partidos.length){
-    cont.innerHTML = `<p>Partidos pendientes de definir.</p>`;
-    return;
-  }
-
-  cont.innerHTML = jornadaActual.partidos.map(p => `
-    <div class="match-card">
-      <span>${p[0]}</span>
-      <b>VS</b>
-      <span>${p[1]}</span>
-    </div>
-  `).join("");
-}
-
-function cargarTiendas(){
-  const select = document.getElementById("tienda");
-  if(select){
-    select.innerHTML = `<option value="">Seleccionar tienda</option>`;
-    tiendas.forEach(t => select.innerHTML += `<option value="${t}">${t}</option>`);
+  const partidos = document.getElementById("partidosHoy");
+  if(partidos){
+    partidos.innerHTML = jornadaActual.partidos.map((p, i) => `
+      <div class="fixture-card">
+        <div class="fixture-time">${p.hora}</div>
+        <div>
+          <strong>${p.local}</strong>
+          <small>${p.estadio}</small>
+        </div>
+        <div class="fixture-vs">VS</div>
+        <div>
+          <strong>${p.visita}</strong>
+        </div>
+      </div>
+    `).join("");
   }
 
   const apiInput = document.getElementById("apiUrl");
   if(apiInput) apiInput.value = apiUrl;
+
+  iniciarContador();
 }
 
-function cargarFormularioApuesta(){
-  const cont = document.getElementById("formPartidos");
-  if(!cont) return;
+function setText(id, value){
+  const el = document.getElementById(id);
+  if(el) el.textContent = value;
+}
 
-  cont.innerHTML = jornadaActual.partidos.map((p,i) => `
-    <div class="partido">
-      <strong>${p[0]} vs ${p[1]}</strong>
-      <select id="partido_${i}">
-        <option value="">Seleccionar</option>
-        <option value="${p[0]}">Gana ${p[0]}</option>
-        <option value="Empate">Empate</option>
-        <option value="${p[1]}">Gana ${p[1]}</option>
-      </select>
-    </div>
-  `).join("");
+/* =========================
+   APUESTA
+========================= */
+
+function cargarApuesta(){
+  const select = document.getElementById("tienda");
+  if(select){
+    select.innerHTML = `<option value="">Seleccionar tienda</option>`;
+    tiendas.forEach(t => {
+      select.innerHTML += `<option value="${t}">${t}</option>`;
+    });
+  }
+
+  const form = document.getElementById("formPartidos");
+  if(form){
+    form.innerHTML = jornadaActual.partidos.map((p, i) => `
+      <div class="fixture-card apuesta-card">
+        <div>
+          <strong>${p.local} vs ${p.visita}</strong>
+          <small>${p.hora} hrs</small>
+        </div>
+        <select id="pronostico_${i}">
+          <option value="">Pronóstico</option>
+          <option value="${p.local}">Gana ${p.local}</option>
+          <option value="Empate">Empate</option>
+          <option value="${p.visita}">Gana ${p.visita}</option>
+        </select>
+      </div>
+    `).join("");
+  }
 }
 
 function guardarApuesta(){
-  const tienda = document.getElementById("tienda").value;
-  const responsable = document.getElementById("responsable").value.trim();
+  const tienda = document.getElementById("tienda")?.value;
+  const responsable = document.getElementById("responsable")?.value.trim();
 
   if(!tienda) return alert("Selecciona una tienda.");
   if(!responsable) return alert("Ingresa responsable.");
 
-  const pronosticos = jornadaActual.partidos.map((p,i) => {
-    const valor = document.getElementById(`partido_${i}`).value;
-    return { partido:`${p[0]} vs ${p[1]}`, pronostico:valor };
+  const pronosticos = jornadaActual.partidos.map((p, i) => {
+    return {
+      partido: `${p.local} vs ${p.visita}`,
+      pronostico: document.getElementById(`pronostico_${i}`).value
+    };
   });
 
   if(pronosticos.some(p => !p.pronostico)){
@@ -199,83 +177,150 @@ function guardarApuesta(){
   }
 
   const registro = {
-    fecha:new Date().toISOString(),
-    jornada:jornadaActual.jornada,
+    jornada:jornadaActual.numero,
     tienda,
     responsable,
-    pronosticos
+    pronosticos,
+    fecha:new Date().toISOString()
   };
 
-  apuestasLocales = apuestasLocales.filter(a => !(a.jornada === jornadaActual.jornada && a.tienda === tienda));
-  apuestasLocales.push(registro);
-  localStorage.setItem("apuestas_wom", JSON.stringify(apuestasLocales));
+  apuestas = apuestas.filter(a => !(a.jornada === jornadaActual.numero && a.tienda === tienda));
+  apuestas.push(registro);
+
+  localStorage.setItem("apuestas_wom", JSON.stringify(apuestas));
 
   alert("Apuesta guardada correctamente.");
   cargarPronosticos();
   cargarMarcador();
+  showSection("pronosticos");
 }
+
+/* =========================
+   PRONÓSTICOS
+========================= */
 
 function cargarPronosticos(){
   const cont = document.getElementById("tablaPronosticos");
   if(!cont) return;
 
-  const apuestas = apuestasLocales.filter(a => a.jornada === jornadaActual.jornada);
+  const data = apuestas.filter(a => a.jornada === jornadaActual.numero);
 
-  if(!apuestas.length){
-    cont.innerHTML = `<p>Aún no hay pronósticos registrados.</p>`;
+  if(!data.length){
+    cont.innerHTML = `
+      <p>Aún no hay pronósticos registrados.</p>
+    `;
     return;
   }
 
-  cont.innerHTML = apuestas.map(a => `
+  cont.innerHTML = data.map(a => `
     <div class="ranking-row">
-      <span>${a.tienda}</span>
-      <strong>${a.pronosticos.length} pronósticos</strong>
+      <div>
+        <strong>${a.tienda}</strong>
+        <small>${a.responsable}</small>
+      </div>
+      <div>
+        ${a.pronosticos.map(p => `<span class="chip">${p.pronostico}</span>`).join("")}
+      </div>
     </div>
   `).join("");
 }
+
+/* =========================
+   AVANCE
+========================= */
+
+function cargarAvance(){
+  const cont = document.getElementById("avanceDia");
+  if(!cont) return;
+
+  cont.innerHTML = metasDia.map(m => {
+    const pct = Math.round((m.avance / m.meta) * 100);
+    const estado = pct >= 100 && m.condicion ? "En competencia" : "En riesgo";
+
+    return `
+      <div class="advance-row">
+        <div>
+          <strong>${m.tienda}</strong>
+          <small>Meta ${m.meta} · Avance ${m.avance}</small>
+        </div>
+        <div class="bar">
+          <span style="width:${Math.min(pct,100)}%"></span>
+        </div>
+        <b>${pct}%</b>
+        <em class="${estado === "En competencia" ? "ok" : "risk"}">${estado}</em>
+      </div>
+    `;
+  }).join("");
+}
+
+/* =========================
+   MARCADOR
+========================= */
 
 function cargarMarcador(){
   const cont = document.getElementById("marcadorTabla");
   if(!cont) return;
 
-  const ranking = tiendas.map((t,i) => ({
-    tienda:t,
-    aciertos: Math.max(0, 18 - i * 2)
-  }));
+  const ranking = metasDia.map((m, i) => {
+    const pct = Math.round((m.avance / m.meta) * 100);
+    return {
+      tienda:m.tienda,
+      aciertos: Math.max(0, 18 - i * 2),
+      pct,
+      valido: pct >= 100 && m.condicion
+    };
+  }).sort((a,b) => b.aciertos - a.aciertos);
 
-  cont.innerHTML = ranking.map((r,i) => `
+  cont.innerHTML = ranking.map((r, i) => `
     <div class="ranking-row">
-      <span>${i+1}. ${r.tienda}</span>
-      <strong>${r.aciertos} pts</strong>
+      <div>
+        <strong>${medalla(i)} ${r.tienda}</strong>
+        <small>${r.valido ? "Habilitada" : "Pendiente de meta/condición"}</small>
+      </div>
+      <div>
+        <b>${r.aciertos} pts</b>
+      </div>
     </div>
   `).join("");
 }
+
+function medalla(i){
+  if(i === 0) return "🥇";
+  if(i === 1) return "🥈";
+  if(i === 2) return "🥉";
+  return `${i + 1}.`;
+}
+
+/* =========================
+   COPA PIZZA
+========================= */
 
 function cargarCopaPizza(){
   const cont = document.getElementById("copaPizza");
   if(!cont) return;
 
-  const ranking = [
-    ["Sucursal Castro", 2],
-    ["Sucursal Osorno", 1],
-    ["Sucursal Puerto Montt Centro", 1],
-    ["Sucursal Ancud", 0],
-    ["Sucursal Valdivia", 0]
-  ];
-
-  cont.innerHTML = ranking.map((r,i) => `
+  cont.innerHTML = copaPizza.map((r, i) => `
     <div class="ranking-row">
-      <span>${i+1}. ${r[0]}</span>
-      <strong>${"🍕".repeat(r[1]) || "0"}</strong>
+      <div>
+        <strong>${medalla(i)} ${r.tienda}</strong>
+        <small>Historial Copa Pizza</small>
+      </div>
+      <div class="pizza-count">
+        ${r.pizzas ? "🍕".repeat(r.pizzas) : "0"}
+      </div>
     </div>
   `).join("");
 }
+
+/* =========================
+   CONTADOR
+========================= */
 
 function iniciarContador(){
   const contador = document.getElementById("contador");
   if(!contador) return;
 
-  setInterval(() => {
+  function update(){
     const ahora = new Date();
     const cierre = new Date();
     cierre.setHours(13,0,0,0);
@@ -289,148 +334,200 @@ function iniciarContador(){
 
     const h = Math.floor(diff / 1000 / 60 / 60);
     const m = Math.floor((diff / 1000 / 60) % 60);
-    contador.textContent = `${h}:${String(m).padStart(2,"0")}`;
-  },1000);
+
+    contador.textContent = `${h}h ${String(m).padStart(2,"0")}m`;
+  }
+
+  update();
+  setInterval(update, 60000);
 }
 
+/* =========================
+   COMPARTIR IMAGEN
+========================= */
+
 async function generarReportePartidos(){
-  const canvas = document.createElement("canvas");
-  canvas.width = 1080;
-  canvas.height = 1350;
+  const canvas = crearCanvasBase("PARTIDOS DEL DÍA");
+
   const ctx = canvas.getContext("2d");
-
-  fondoReporte(ctx, canvas);
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 64px Arial";
-  ctx.fillText("MUNDIAL", 70, 120);
-
-  ctx.fillStyle = "#ff2f92";
-  ctx.font = "bold 72px Arial";
-  ctx.fillText("MULTIPRODUCTO", 70, 200);
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 36px Arial";
-  ctx.fillText("WOM MERIDIONAL", 70, 260);
-
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 46px Arial";
-  ctx.fillText("⚽ PARTIDOS DEL DÍA", 70, 380);
-
-  let y = 470;
-  jornadaActual.partidos.forEach(p => {
-    tarjeta(ctx, 70, y, 940, 95);
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 34px Arial";
-    ctx.fillText(`${p[0]}  VS  ${p[1]}`, 110, y + 60);
-    y += 120;
-  });
-
-  tarjeta(ctx, 70, 1050, 940, 150);
-  ctx.fillStyle = "#ff2f92";
-  ctx.font = "bold 40px Arial";
-  ctx.fillText("🎯 CONDICIÓN DEL DÍA", 110, 1110);
 
   ctx.fillStyle = "#fff";
   ctx.font = "bold 38px Arial";
-  ctx.fillText(jornadaActual.condicion, 110, 1170);
+  ctx.fillText(`Jornada ${jornadaActual.numero} de 7`, 80, 290);
+
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 34px Arial";
+  ctx.fillText(jornadaActual.fecha, 80, 340);
+
+  let y = 440;
+
+  jornadaActual.partidos.forEach((p, i) => {
+    drawCard(ctx, 70, y, 940, 95);
+
+    ctx.fillStyle = "#ff2f92";
+    ctx.font = "bold 28px Arial";
+    ctx.fillText(p.hora, 100, y + 58);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText(p.local, 220, y + 58);
+
+    ctx.fillStyle = "#ffcc33";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText("VS", 530, y + 58);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText(p.visita, 620, y + 58);
+
+    y += 120;
+  });
+
+  drawCard(ctx, 70, 1050, 940, 170);
+
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 36px Arial";
+  ctx.fillText("🎯 CONDICIÓN DEL DÍA", 110, 1115);
 
   ctx.fillStyle = "#fff";
-  ctx.font = "bold 34px Arial";
-  ctx.fillText("⏰ Cierre de apuestas: 13:00 hrs", 110, 1260);
+  ctx.font = "bold 38px Arial";
+  wrapText(ctx, jornadaActual.condicion, 110, 1175, 850, 44);
+
+  ctx.fillStyle = "#ffcc33";
+  ctx.font = "bold 30px Arial";
+  ctx.fillText("⏰ Cierre de apuestas: 13:00 hrs", 110, 1270);
 
   compartirCanvas(canvas, "reporte-partidos.png");
 }
 
 async function generarReporteMetas(){
-  const canvas = document.createElement("canvas");
-  canvas.width = 1080;
-  canvas.height = 1350;
+  const canvas = crearCanvasBase("METAS DEL DÍA");
   const ctx = canvas.getContext("2d");
-
-  fondoReporte(ctx, canvas);
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 72px Arial";
-  ctx.fillText("METAS", 70, 140);
-
-  ctx.fillStyle = "#ff2f92";
-  ctx.font = "bold 72px Arial";
-  ctx.fillText("DEL DÍA", 70, 220);
 
   ctx.fillStyle = "#fff";
   ctx.font = "bold 36px Arial";
-  ctx.fillText("MUNDIAL MULTIPRODUCTO WOM", 70, 290);
+  ctx.fillText("Condición + Meta por tienda", 80, 300);
 
-  tarjeta(ctx, 70, 370, 940, 260);
+  let y = 390;
 
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 42px Arial";
-  ctx.fillText("✅ Meta Accesorios", 120, 450);
-  ctx.fillText("✅ Meta Seguros", 120, 520);
-  ctx.fillText(`✅ ${jornadaActual.condicion}`, 120, 590);
+  metasDia.forEach(m => {
+    const pct = Math.round((m.avance / m.meta) * 100);
 
-  ctx.fillStyle = "#ff2f92";
-  ctx.font = "bold 42px Arial";
-  ctx.fillText("🏪 TIENDAS PARTICIPANTES", 70, 720);
+    drawCard(ctx, 70, y, 940, 105);
 
-  let y = 790;
-  tiendas.forEach(t => {
     ctx.fillStyle = "#fff";
-    ctx.font = "bold 28px Arial";
-    ctx.fillText(`• ${t}`, 100, y);
-    y += 45;
+    ctx.font = "bold 32px Arial";
+    ctx.fillText(m.tienda, 110, y + 42);
+
+    ctx.fillStyle = "#b9b9d1";
+    ctx.font = "26px Arial";
+    ctx.fillText(`Meta ${m.meta} · Avance ${m.avance}`, 110, y + 78);
+
+    ctx.fillStyle = pct >= 100 ? "#21e66a" : "#ffcc33";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText(`${pct}%`, 840, y + 62);
+
+    y += 125;
   });
 
-  tarjeta(ctx, 70, 1180, 940, 110);
-  ctx.fillStyle = "#fff";
+  drawCard(ctx, 70, 1090, 940, 150);
+
+  ctx.fillStyle = "#ff2f92";
   ctx.font = "bold 34px Arial";
-  ctx.fillText("🍕 Solo compiten tiendas que cumplan las condiciones", 100, 1245);
+  ctx.fillText("🏆 REQUISITOS PARA COMPETIR", 110, 1150);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "28px Arial";
+  ctx.fillText("✅ Cumplir condición del día", 110, 1195);
+  ctx.fillText("✅ Cumplir meta diaria de la tienda", 110, 1235);
 
   compartirCanvas(canvas, "reporte-metas.png");
 }
 
-function fondoReporte(ctx, canvas){
+function crearCanvasBase(titulo){
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1350;
+
+  const ctx = canvas.getContext("2d");
+
   const grad = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
-  grad.addColorStop(0,"#140028");
-  grad.addColorStop(.5,"#5b00c8");
+  grad.addColorStop(0,"#090015");
+  grad.addColorStop(.45,"#34006f");
   grad.addColorStop(1,"#090015");
+
   ctx.fillStyle = grad;
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 54px Arial";
-  ctx.fillText("WOM", 70, 70);
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 58px Arial";
+  ctx.fillText("WOM", 70, 90);
 
   ctx.fillStyle = "#ff2f92";
-  ctx.font = "bold 32px Arial";
-  ctx.fillText("MERIDIONAL", 70, 105);
+  ctx.font = "bold 34px Arial";
+  ctx.fillText("MERIDIONAL", 70, 130);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 70px Arial";
+  ctx.fillText("MUNDIAL", 70, 210);
+
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 70px Arial";
+  ctx.fillText("MULTIPRODUCTO", 70, 280);
+
+  ctx.fillStyle = "#ffcc33";
+  ctx.font = "bold 42px Arial";
+  ctx.fillText(`🍕 ${titulo}`, 70, 365);
+
+  return canvas;
 }
 
-function tarjeta(ctx,x,y,w,h){
-  ctx.fillStyle = "rgba(20,0,40,.85)";
-  ctx.strokeStyle = "rgba(255,255,255,.25)";
+function drawCard(ctx, x, y, w, h){
+  ctx.fillStyle = "rgba(20,0,45,.88)";
+  ctx.strokeStyle = "rgba(255,47,146,.65)";
   ctx.lineWidth = 3;
-  roundRect(ctx,x,y,w,h,28,true,true);
+
+  roundRect(ctx, x, y, w, h, 28, true, true);
 }
 
-function roundRect(ctx,x,y,w,h,r,fill,stroke){
+function roundRect(ctx, x, y, w, h, r, fill, stroke){
   ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h-r);
-  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  ctx.lineTo(x+r,y+h);
-  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-  ctx.lineTo(x,y+r);
-  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h);
+  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);
+  ctx.quadraticCurveTo(x, y, x+r, y);
   ctx.closePath();
+
   if(fill) ctx.fill();
   if(stroke) ctx.stroke();
 }
 
-function compartirCanvas(canvas,nombre){
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  const words = text.split(" ");
+  let line = "";
+
+  for(let n = 0; n < words.length; n++){
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+
+    if(metrics.width > maxWidth && n > 0){
+      ctx.fillText(line, x, y);
+      line = words[n] + " ";
+      y += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+
+  ctx.fillText(line, x, y);
+}
+
+function compartirCanvas(canvas, nombre){
   canvas.toBlob(async blob => {
     const file = new File([blob], nombre, { type:"image/png" });
 
@@ -439,21 +536,27 @@ function compartirCanvas(canvas,nombre){
         title:"Mundial Multiproducto WOM",
         files:[file]
       });
-    }else{
+    } else {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = nombre;
       a.click();
-      alert("Imagen generada. Descárgala y compártela por WhatsApp.");
+      alert("Imagen generada. Se descargó para compartir por WhatsApp.");
     }
   });
 }
 
+/* =========================
+   ADMIN / API
+========================= */
+
 function guardarApi(){
   const input = document.getElementById("apiUrl");
   if(!input) return;
+
   apiUrl = input.value.trim();
   localStorage.setItem("api_wom", apiUrl);
+
   alert("Conexión guardada.");
 }
