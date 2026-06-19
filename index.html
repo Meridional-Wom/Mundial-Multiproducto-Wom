@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Mundial Multiproducto WOM</title>
 
   <link rel="stylesheet" href="styles.css" />
@@ -18,14 +17,11 @@
 
 <body>
 
-  <!-- SPLASH SCREEN -->
   <div id="splashScreen">
     <div class="splash-content">
       <div class="splash-icon">🏆⚽📈</div>
-
-      <h1>MUNDIAL<br />MULTIPRODUCTO</h1>
+      <h1>MUNDIAL<br>MULTIPRODUCTO</h1>
       <h2>WOM MERIDIONAL</h2>
-
       <p>Pronostica • Cumple • Compite • Gana</p>
 
       <div class="loader-bar">
@@ -36,20 +32,15 @@
     </div>
   </div>
 
-  <!-- APP -->
   <main id="app" class="app hidden">
 
-    <!-- INICIO -->
     <section id="inicio" class="screen active">
 
-      <header class="hero-card">
+      <header class="hero-card compact">
         <span class="brand">WOM MERIDIONAL</span>
-
         <h1>🏆 Mundial Multiproducto</h1>
 
-        <p>Pronostica • Cumple • Compite • Gana</p>
-
-        <div class="hero-row">
+        <div class="hero-row compact-row">
           <div>
             <small>Jornada</small>
             <strong id="jornadaActual">1 de 7</strong>
@@ -62,27 +53,30 @@
         </div>
       </header>
 
-      <section class="info-card">
-        <h2>🏆 Cómo ganar la jornada</h2>
+      <section class="home-grid">
 
-        <ul>
-          <li>Cumplir la condición del día</li>
-          <li>Cumplir la meta diaria</li>
-          <li>Obtener más aciertos</li>
-        </ul>
+        <div class="info-card prize-card compact-card">
+          <h2>🎁 Premio</h2>
+          <p id="premioDia">🍕 Pizza para la tienda ganadora</p>
+        </div>
+
+        <div class="info-card compact-card">
+          <h2>🏆 Cómo ganar</h2>
+          <ul class="compact-list">
+            <li>Condición del día</li>
+            <li>Meta diaria</li>
+            <li>Más aciertos</li>
+          </ul>
+        </div>
+
       </section>
 
-      <section class="info-card prize-card">
-        <h2>🎁 Premio de la jornada</h2>
-        <p id="premioDia">🍕 Pizza para la tienda ganadora</p>
-      </section>
-
-      <section class="matches-section">
+      <section class="matches-section compact-card">
         <div class="section-title">
           <h2>⚽ Partidos de la jornada</h2>
         </div>
 
-        <div id="partidosHoy" class="match-list"></div>
+        <div id="partidosHoy" class="match-list compact-list-matches"></div>
       </section>
 
       <button class="primary-btn" onclick="showSection('apostar')">
@@ -91,7 +85,6 @@
 
     </section>
 
-    <!-- APOSTAR -->
     <section id="apostar" class="screen">
 
       <header class="screen-header">
@@ -99,7 +92,7 @@
         <h1>⚽ Apostar</h1>
       </header>
 
-      <section class="form-card">
+      <section class="form-card compact-card">
         <label for="tienda">Tienda</label>
         <select id="tienda"></select>
       </section>
@@ -111,13 +104,11 @@
       </button>
 
       <section id="apuestaGuardada" class="success-box hidden">
-        <h2>✅ Apuesta registrada</h2>
-
-        <p>
-          La apuesta ya fue enviada y no puede modificarse.
-        </p>
-
-        <small id="fechaRegistro"></small>
+        <div class="success-card">
+          <h2>✅ Apuesta registrada</h2>
+          <p>La apuesta ya fue enviada y no puede modificarse.</p>
+          <small id="fechaRegistro"></small>
+        </div>
 
         <button class="share-btn" onclick="compartirApuesta()">
           📤 Compartir mi apuesta
@@ -126,7 +117,6 @@
 
     </section>
 
-    <!-- PRONÓSTICOS -->
     <section id="pronosticos" class="screen">
 
       <header class="screen-header">
@@ -134,7 +124,7 @@
         <h1>📢 Pronósticos</h1>
       </header>
 
-      <section class="info-card">
+      <section class="info-card compact-card">
         <h2>Apuestas de las tiendas</h2>
         <p>Revisa qué eligió cada tienda para la jornada.</p>
       </section>
@@ -143,7 +133,6 @@
 
     </section>
 
-    <!-- CONDICIÓN / META -->
     <section id="condicionMeta" class="screen">
 
       <header class="screen-header">
@@ -151,27 +140,23 @@
         <h1>🎯 Condición / Meta</h1>
       </header>
 
-      <section class="info-card">
+      <section class="info-card compact-card">
         <h2>🎯 Condición del día</h2>
         <p id="condicionDia">Mínimo 1 WOMGO vendido</p>
       </section>
 
-      <section class="info-card">
+      <section class="info-card compact-card">
         <h2>📈 Metas por tienda</h2>
-        <div id="metasTienda" class="goals-list"></div>
+        <div id="metasTienda" class="goals-list compact-goals"></div>
       </section>
 
-      <section class="info-card">
+      <section class="info-card compact-card">
         <h2>🏆 Estado de competencia</h2>
-        <p>
-          Compite la tienda que cumpla la condición del día, cumpla su meta diaria
-          y obtenga más aciertos.
-        </p>
+        <p>Compite quien cumpla condición, meta diaria y tenga más aciertos.</p>
       </section>
 
     </section>
 
-    <!-- RESULTADOS -->
     <section id="resultados" class="screen">
 
       <header class="screen-header">
@@ -179,19 +164,18 @@
         <h1>🏁 Resultados</h1>
       </header>
 
-      <section class="info-card">
+      <section class="info-card compact-card">
         <h2>⚽ Resultados de partidos</h2>
-        <div id="resultadosPartidos" class="results-list"></div>
+        <div id="resultadosPartidos" class="results-list compact-results"></div>
       </section>
 
-      <section class="info-card">
+      <section class="info-card compact-card">
         <h2>🏆 Resultado de la jornada</h2>
         <div id="resultadoJornada"></div>
       </section>
 
     </section>
 
-    <!-- ADMIN -->
     <section id="adminPanel" class="screen">
 
       <header class="screen-header">
@@ -199,7 +183,7 @@
         <h1>⚙️ Admin</h1>
       </header>
 
-      <section id="adminLogin" class="form-card">
+      <section id="adminLogin" class="form-card compact-card">
         <label for="adminPass">Código administrador</label>
         <input id="adminPass" type="password" placeholder="Ingresa el código" />
 
@@ -210,7 +194,7 @@
 
       <section id="adminContent" class="hidden">
 
-        <section class="form-card">
+        <section class="form-card compact-card">
           <h2>Configuración</h2>
 
           <label for="apiUrl">URL Apps Script</label>
@@ -221,7 +205,7 @@
           </button>
         </section>
 
-        <section class="form-card">
+        <section class="form-card compact-card">
           <h2>Acciones rápidas</h2>
 
           <button class="secondary-btn" onclick="limpiarApuestas()">
@@ -229,7 +213,7 @@
           </button>
 
           <button class="secondary-btn" onclick="reabrirApuestaAdmin()">
-            Reabrir apuesta de una tienda
+            Reabrir apuesta
           </button>
         </section>
 
@@ -239,7 +223,6 @@
 
   </main>
 
-  <!-- MENÚ INFERIOR -->
   <nav class="bottom-nav">
     <button onclick="showSection('inicio')">
       🏠
