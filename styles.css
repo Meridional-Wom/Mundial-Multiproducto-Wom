@@ -1,15 +1,17 @@
 :root{
-  --bg:#07070b;
-  --card:#11131a;
-  --card2:#171b24;
+  --bg:#07020f;
+  --bg2:#14002b;
+  --card:#12101c;
+  --card2:#1b1630;
   --wom:#6f00ff;
+  --wom2:#8a2cff;
   --pink:#ff2f92;
   --green:#22c55e;
   --yellow:#fbbf24;
   --text:#ffffff;
-  --muted:#a7b0c0;
-  --border:rgba(255,255,255,.08);
-  --shadow:0 10px 28px rgba(0,0,0,.35);
+  --muted:#b8b2ca;
+  --border:rgba(151,82,255,.22);
+  --shadow:0 10px 28px rgba(0,0,0,.38);
 }
 
 *{
@@ -25,8 +27,9 @@ html{
 body{
   font-family:'Inter',sans-serif;
   background:
-    radial-gradient(circle at top, rgba(111,0,255,.20), transparent 32%),
-    #07070b;
+    radial-gradient(circle at 50% -10%, rgba(111,0,255,.55), transparent 32%),
+    radial-gradient(circle at 15% 18%, rgba(255,47,146,.15), transparent 24%),
+    linear-gradient(180deg,#120024 0%,#07020f 45%,#05040a 100%);
   color:var(--text);
   min-height:100vh;
 }
@@ -35,7 +38,6 @@ body{
   display:none!important;
 }
 
-/* IMPORTANTE: evita que todo aparezca en Inicio */
 .screen{
   display:none;
 }
@@ -53,7 +55,9 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(180deg,#040405,#0b0b15);
+  background:
+    radial-gradient(circle at top, rgba(111,0,255,.55), transparent 36%),
+    linear-gradient(180deg,#120024,#05040a);
 }
 
 .splash-content{
@@ -65,6 +69,7 @@ body{
 .splash-icon{
   font-size:48px;
   margin-bottom:16px;
+  filter:drop-shadow(0 0 16px rgba(111,0,255,.55));
 }
 
 .splash-content h1{
@@ -91,7 +96,7 @@ body{
   height:7px;
   border-radius:20px;
   overflow:hidden;
-  background:#1a1d27;
+  background:#211832;
 }
 
 .loader-bar span{
@@ -127,7 +132,9 @@ body{
 /* HEADER */
 
 .hero-card{
-  background:linear-gradient(145deg,#151823,#0d1016);
+  background:
+    linear-gradient(145deg,rgba(111,0,255,.28),rgba(18,16,28,.96) 45%,rgba(12,9,20,.98)),
+    radial-gradient(circle at right top,rgba(255,47,146,.20),transparent 34%);
   border:1px solid var(--border);
   border-radius:22px;
   padding:16px;
@@ -156,7 +163,8 @@ body{
 }
 
 .hero-row div{
-  background:#191d26;
+  background:rgba(26,18,48,.86);
+  border:1px solid rgba(151,82,255,.18);
   border-radius:14px;
   padding:10px;
 }
@@ -178,11 +186,13 @@ body{
 .form-card,
 .success-card,
 .matches-section{
-  background:var(--card);
+  background:
+    linear-gradient(180deg,rgba(28,20,48,.92),rgba(13,12,20,.96));
   border:1px solid var(--border);
   border-radius:18px;
   padding:13px;
   margin-bottom:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.22);
 }
 
 .info-card h2,
@@ -207,6 +217,8 @@ body{
 
 .prize-card{
   border-left:4px solid var(--pink);
+  background:
+    linear-gradient(135deg,rgba(111,0,255,.28),rgba(18,16,28,.98));
 }
 
 .home-grid{
@@ -243,8 +255,9 @@ body{
 }
 
 .match-card{
-  background:var(--card2);
-  border:1px solid var(--border);
+  background:
+    linear-gradient(90deg,rgba(111,0,255,.20),rgba(27,22,48,.96));
+  border:1px solid rgba(151,82,255,.22);
   border-radius:14px;
   padding:10px 12px;
   display:grid;
@@ -266,7 +279,7 @@ body{
 }
 
 .match-teams span{
-  color:var(--muted);
+  color:#c7b6ff;
   font-size:11px;
   margin:0 5px;
 }
@@ -288,16 +301,18 @@ body{
 .primary-btn{
   background:linear-gradient(135deg,var(--wom),var(--pink));
   color:white;
+  box-shadow:0 8px 24px rgba(111,0,255,.28);
 }
 
 .secondary-btn{
-  background:#1a1f29;
+  background:#211832;
   color:white;
   margin-top:8px;
+  border:1px solid rgba(151,82,255,.18);
 }
 
 .share-btn{
-  background:var(--green);
+  background:linear-gradient(135deg,#16a34a,#22c55e);
   color:white;
   margin-top:10px;
 }
@@ -316,8 +331,9 @@ body{
   height:38px;
   border:none;
   border-radius:12px;
-  background:#1a1f29;
+  background:#211832;
   color:white;
+  border:1px solid rgba(151,82,255,.20);
 }
 
 .screen-header h1{
@@ -338,11 +354,12 @@ select{
   width:100%;
   border:none;
   outline:none;
-  background:#1b1f29;
+  background:#211832;
   color:white;
   border-radius:12px;
   padding:12px;
   font-size:14px;
+  border:1px solid rgba(151,82,255,.16);
 }
 
 .bet-list{
@@ -353,8 +370,9 @@ select{
 }
 
 .bet-card{
-  background:var(--card);
-  border:1px solid var(--border);
+  background:
+    linear-gradient(180deg,rgba(28,20,48,.92),rgba(14,12,22,.96));
+  border:1px solid rgba(151,82,255,.22);
   border-radius:16px;
   padding:12px;
 }
@@ -401,8 +419,9 @@ select{
 }
 
 .prediction-card{
-  background:var(--card);
-  border:1px solid var(--border);
+  background:
+    linear-gradient(180deg,rgba(28,20,48,.94),rgba(12,10,18,.98));
+  border:1px solid rgba(151,82,255,.22);
   border-radius:18px;
   padding:13px;
 }
@@ -410,6 +429,7 @@ select{
 .prediction-card h3{
   font-size:16px;
   margin-bottom:8px;
+  color:white;
 }
 
 .prediction-card p{
@@ -431,13 +451,14 @@ select{
 }
 
 .goal-row{
-  background:#171b24;
+  background:#211832;
   border-radius:13px;
   padding:10px;
   display:grid;
   grid-template-columns:1.1fr .9fr;
   gap:8px;
   align-items:center;
+  border:1px solid rgba(151,82,255,.14);
 }
 
 .goal-row strong{
@@ -458,9 +479,10 @@ select{
 }
 
 .result-card{
-  background:#171b24;
+  background:#211832;
   border-radius:13px;
   padding:10px;
+  border:1px solid rgba(151,82,255,.14);
 }
 
 .result-card strong{
@@ -483,12 +505,14 @@ select{
   left:0;
   right:0;
   height:72px;
-  background:#0d1016;
-  border-top:1px solid var(--border);
+  background:
+    linear-gradient(180deg,rgba(18,0,43,.96),rgba(8,4,15,.98));
+  border-top:1px solid rgba(151,82,255,.26);
   display:flex;
   justify-content:space-around;
   align-items:center;
   z-index:1000;
+  box-shadow:0 -8px 24px rgba(111,0,255,.16);
 }
 
 .bottom-nav button{
