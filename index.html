@@ -1,201 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mundial Multiproducto WOM</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial Multiproducto WOM</title>
+
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <div class="app">
 
-    <aside class="sidebar">
-      <div class="brand">
-        <h1>WOM</h1>
-        <p>MERIDIONAL</p>
-      </div>
+<div class="container">
 
-      <nav>
-        <button onclick="showSection('inicio')">🏠 Inicio</button>
-        <button onclick="showSection('apuesta')">⚽ Realizar Apuesta</button>
-        <button onclick="showSection('pronosticos')">📢 Ver Pronósticos</button>
-        <button onclick="showSection('marcador')">🔥 Marcador Mundialista</button>
-        <button onclick="showSection('copa')">🏆🍕 Copa Pizza</button>
-        <button onclick="showSection('reportes')">📊 Reportes</button>
-        <button onclick="showSection('admin')">⚙️ Administración</button>
-      </nav>
-    </aside>
+<section id="inicio">
 
-    <main class="content">
+<div class="hero-banner">
+<img src="banner.png" alt="Banner Mundial">
+</div>
 
-      <section id="inicio" class="section active">
+<div class="menu-grid">
 
-        <div class="hero-banner">
-          <div class="hero-content">
-            <span class="hero-badge">🏆🍕 COPA PIZZA MERIDIONAL</span>
-            <h1>MUNDIAL<br><strong>MULTIPRODUCTO</strong></h1>
-            <h2>WOM MERIDIONAL</h2>
-            <p>Pronostica • Cumple la Meta • Gana la Pizza 🍕</p>
-            <button class="hero-btn" onclick="showSection('apuesta')">⚽ Realizar Pronóstico</button>
-          </div>
-        </div>
+<button onclick="mostrar('apuesta')" class="menu-btn">
+⚽
+<span>Apuesta de Hoy</span>
+</button>
 
-        <div class="home-stats">
-          <div class="stat-card">
-            <span>📅</span>
-            <p>Jornada actual</p>
-            <h3 id="jornadaActual">Jornada 1 de 7</h3>
-          </div>
+<button onclick="mostrar('pronosticos')" class="menu-btn">
+📢
+<span>Pronósticos</span>
+</button>
 
-          <div class="stat-card">
-            <span>⏰</span>
-            <p>Cierre apuestas</p>
-            <h3 id="contador">13:00</h3>
-          </div>
+<button onclick="mostrar('marcador')" class="menu-btn">
+🔥
+<span>Marcador</span>
+</button>
 
-          <div class="stat-card">
-            <span>🏪</span>
-            <p>Tiendas</p>
-            <h3>10 participantes</h3>
-          </div>
-        </div>
+<button onclick="mostrar('pizza')" class="menu-btn">
+🍕
+<span>Copa Pizza</span>
+</button>
 
-        <div class="condition-card">
-          <div>
-            <span>🎯</span>
-          </div>
-          <div>
-            <p>Condición del día</p>
-            <h3 id="condicionDia">Cumplir requisito WOMGO</h3>
-          </div>
-        </div>
+<button onclick="compartirPartidos()" class="menu-btn">
+📤
+<span>Compartir Partidos</span>
+</button>
 
-        <div class="action-grid">
-          <button onclick="showSection('apuesta')">⚽ Realizar Apuesta</button>
-          <button onclick="showSection('pronosticos')">📢 Ver Pronósticos</button>
-          <button onclick="showSection('marcador')">🔥 Marcador Mundialista</button>
-          <button onclick="showSection('copa')">🏆🍕 Copa Pizza</button>
-          <button onclick="compartirPartidos()">📲 Compartir Partidos y Condición</button>
-          <button onclick="compartirMetas()">📈 Compartir Metas del Día</button>
-        </div>
+<button onclick="compartirMetas()" class="menu-btn">
+📊
+<span>Compartir Metas</span>
+</button>
 
-        <div class="grid">
-          <div class="card">
-            <h3>⚽ Partidos de la Jornada</h3>
-            <div id="partidosHoy"></div>
-          </div>
+<button onclick="admin()" class="menu-btn admin">
+⚙️
+<span>Admin</span>
+</button>
 
-          <div class="card trophy">
-            <h3>🏆🍕 Pizza Ganada</h3>
-            <h2 id="campeonAyer">Pendiente</h2>
-            <p>Resultado oficial de la jornada anterior</p>
-          </div>
-        </div>
+</div>
 
-      </section>
+</section>
 
-      <section id="apuesta" class="section">
-        <div class="card">
-          <h2>⚽ Apuesta de Hoy</h2>
-          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
+<section id="apuesta" class="pagina">
 
-          <label>Tienda</label>
-          <select id="tienda"></select>
+<button onclick="inicio()" class="volver">
+← Volver al Inicio
+</button>
 
-          <label>Responsable</label>
-          <input id="responsable" placeholder="Nombre responsable" />
+<h2>Apuesta de Hoy</h2>
 
-          <div id="formPartidos"></div>
+</section>
 
-          <button class="primary" onclick="guardarApuesta()">Enviar / Editar Apuesta</button>
-          <p class="small">Puedes modificar tu apuesta hasta las 13:00 hrs.</p>
-        </div>
-      </section>
+<section id="pronosticos" class="pagina">
 
-      <section id="pronosticos" class="section">
-        <div class="card">
-          <h2>📢 Pronósticos de la Jornada</h2>
-          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
-          <p class="small">Se muestran después del cierre de apuestas.</p>
-          <div id="tablaPronosticos"></div>
-        </div>
-      </section>
+<button onclick="inicio()" class="volver">
+← Volver al Inicio
+</button>
 
-      <section id="marcador" class="section">
-        <div class="card">
-          <h2>🔥 Marcador Mundialista</h2>
-          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
-          <div id="marcadorTabla"></div>
-          <p class="small">Ranking deportivo referencial sujeto a validación comercial.</p>
-        </div>
-      </section>
+<h2>Pronósticos</h2>
 
-      <section id="copa" class="section">
-        <div class="card">
-          <h2>🏆🍕 Copa Pizza Meridional</h2>
-          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
-          <div id="copaPizza"></div>
-        </div>
-      </section>
+</section>
 
-      <section id="reportes" class="section">
-        <div class="card">
-          <h2>📊 Reportes del Concurso</h2>
-          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
+<section id="marcador" class="pagina">
 
-          <div class="report-grid">
-            <div class="report-card">
-              <span>🏆</span>
-              <p>Líder actual</p>
-              <h3>Sucursal Castro</h3>
-            </div>
+<button onclick="inicio()" class="volver">
+← Volver al Inicio
+</button>
 
-            <div class="report-card">
-              <span>🍕</span>
-              <p>Pizzas ganadas</p>
-              <h3>3</h3>
-            </div>
+<h2>Marcador</h2>
 
-            <div class="report-card">
-              <span>🎯</span>
-              <p>Pronósticos acertados</p>
-              <h3>27</h3>
-            </div>
+</section>
 
-            <div class="report-card">
-              <span>📈</span>
-              <p>Cumplimiento promedio</p>
-              <h3>82%</h3>
-            </div>
-          </div>
+<section id="pizza" class="pagina">
 
-          <div class="share-report">
-            <button onclick="compartirPartidos()">📲 Compartir Partidos</button>
-            <button onclick="compartirMetas()">📈 Compartir Metas</button>
-          </div>
-        </div>
-      </section>
+<button onclick="inicio()" class="volver">
+← Volver al Inicio
+</button>
 
-      <section id="admin" class="section">
-        <div class="card">
-          <h2>⚙️ Administración</h2>
-          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
+<h2>Copa Pizza</h2>
 
-          <label>URL Apps Script</label>
-          <input id="apiUrl" placeholder="Pega aquí la URL del Apps Script" />
+</section>
 
-          <button class="primary" onclick="guardarApi()">Guardar conexión</button>
+</div>
 
-          <p class="small">Luego conectaremos esta web al Google Sheets con Code.gs.</p>
-        </div>
-      </section>
+<script src="script.js"></script>
 
-    </main>
-  </div>
-
-  <button class="floating-home" onclick="showSection('inicio')">🏠</button>
-
-  <script src="script.js"></script>
 </body>
 </html>
