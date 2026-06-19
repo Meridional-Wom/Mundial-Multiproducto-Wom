@@ -14,7 +14,6 @@ const tiendas = [
 const jornadas = [
   {
     jornada: 1,
-    fecha: "2026-06-19",
     texto: "Viernes 19 de junio",
     fase: "Fase 1: Activación",
     condicion: "Mínimo 1 WOMGO vendido",
@@ -27,7 +26,6 @@ const jornadas = [
   },
   {
     jornada: 2,
-    fecha: "2026-06-22",
     texto: "Lunes 22 de junio",
     fase: "Fase 1: Activación",
     condicion: "Mínimo 1 WOMGO vendido",
@@ -40,7 +38,6 @@ const jornadas = [
   },
   {
     jornada: 3,
-    fecha: "2026-06-23",
     texto: "Martes 23 de junio",
     fase: "Fase 2: Presión",
     condicion: "50% o más de cumplimiento WOMGO",
@@ -53,7 +50,6 @@ const jornadas = [
   },
   {
     jornada: 4,
-    fecha: "2026-06-24",
     texto: "Miércoles 24 de junio",
     fase: "Fase 2: Presión",
     condicion: "50% o más de cumplimiento WOMGO",
@@ -68,7 +64,6 @@ const jornadas = [
   },
   {
     jornada: 5,
-    fecha: "2026-06-25",
     texto: "Jueves 25 de junio",
     fase: "Fase 3: Esprint",
     condicion: "80% o más de cumplimiento WOMGO",
@@ -83,7 +78,6 @@ const jornadas = [
   },
   {
     jornada: 6,
-    fecha: "2026-06-26",
     texto: "Viernes 26 de junio",
     fase: "Fase 3: Esprint",
     condicion: "80% o más de cumplimiento WOMGO",
@@ -98,7 +92,6 @@ const jornadas = [
   },
   {
     jornada: 7,
-    fecha: "2026-06-30",
     texto: "Martes 30 de junio",
     fase: "Fase 4: Gran Final",
     condicion: "100% cumplimiento WOMGO",
@@ -118,132 +111,68 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarMarcador();
   cargarCopaPizza();
   iniciarContador();
-  inicio();
+  showSection("inicio");
 });
 
-function ocultarTodo() {
-  document.querySelectorAll(".pagina").forEach(p => {
-    p.style.display = "none";
-  });
-
-  const inicioEl = document.getElementById("inicio");
-  if (inicioEl) inicioEl.style.display = "none";
-}
-
-function mostrar(id) {
-  ocultarTodo();
-
+function showSection(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   const section = document.getElementById(id);
-  if (section) {
-    section.style.display = "block";
-  }
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if(section) section.classList.add("active");
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
-function inicio() {
-  ocultarTodo();
-
-  const inicioEl = document.getElementById("inicio");
-  if (inicioEl) inicioEl.style.display = "block";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function showSection(id) {
-  mostrar(id);
-}
-
-function admin() {
+function admin(){
   const clave = prompt("Ingrese código de administrador");
-
-  if (clave !== "Meridional") {
+  if(clave !== "Meridional"){
     alert("Código incorrecto");
     return;
   }
-
-  const adminSection = document.getElementById("admin");
-
-  if (adminSection) {
-    mostrar("admin");
-  } else {
-    alert("Admin habilitado. La sección de administración se agregará al conectar Google Sheets.");
-  }
+  showSection("adminPanel");
 }
 
-function cargarInicio() {
-  const jornadaEl = document.getElementById("jornadaActual");
-  if (jornadaEl) {
-    jornadaEl.textContent = `Jornada ${jornadaActual.jornada} de 7`;
-  }
+function cargarInicio(){
+  const jornada = document.getElementById("jornadaActual");
+  const condicion = document.getElementById("condicionDia");
 
-  const condicionEl = document.getElementById("condicionDia");
-  if (condicionEl) {
-    condicionEl.textContent = `${jornadaActual.fase}: ${jornadaActual.condicion}`;
-  }
+  if(jornada) jornada.textContent = `${jornadaActual.jornada} de 7`;
+  if(condicion) condicion.textContent = jornadaActual.condicion;
 
-  const partidosHoy = document.getElementById("partidosHoy");
+  const cont = document.getElementById("partidosHoy");
+  if(!cont) return;
 
-  if (partidosHoy) {
-    if (!jornadaActual.partidos.length) {
-      partidosHoy.innerHTML = `
-        <p>⚠️ Partidos pendientes de definir.</p>
-        <p class="small">Se cargarán cuando estén confirmados.</p>
-      `;
-    } else {
-      partidosHoy.innerHTML = `
-        <table class="partidos-table">
-          <thead>
-            <tr>
-              <th>Local</th>
-              <th>VS</th>
-              <th>Visita</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${jornadaActual.partidos.map(p => `
-              <tr>
-                <td>${p[0]}</td>
-                <td>vs</td>
-                <td>${p[1]}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-        <p class="small">${jornadaActual.fase}: ${jornadaActual.condicion}</p>
-      `;
-    }
-  }
-}
-
-function cargarTiendas() {
-  const select = document.getElementById("tienda");
-  if (!select) return;
-
-  select.innerHTML = `<option value="">Seleccionar tienda</option>`;
-
-  tiendas.forEach(tienda => {
-    select.innerHTML += `<option value="${tienda}">${tienda}</option>`;
-  });
-
-  const apiInput = document.getElementById("apiUrl");
-  if (apiInput) apiInput.value = apiUrl;
-}
-
-function cargarFormularioApuesta() {
-  const cont = document.getElementById("formPartidos");
-  if (!cont) return;
-
-  if (!jornadaActual.partidos.length) {
-    cont.innerHTML = `<p>No hay partidos cargados para esta jornada.</p>`;
+  if(!jornadaActual.partidos.length){
+    cont.innerHTML = `<p>Partidos pendientes de definir.</p>`;
     return;
   }
 
-  cont.innerHTML = jornadaActual.partidos.map((p, index) => `
-    <div class="card">
-      <h3>${p[0]} vs ${p[1]}</h3>
-      <label>Pronóstico</label>
-      <select id="partido_${index}">
+  cont.innerHTML = jornadaActual.partidos.map(p => `
+    <div class="match-card">
+      <span>${p[0]}</span>
+      <b>VS</b>
+      <span>${p[1]}</span>
+    </div>
+  `).join("");
+}
+
+function cargarTiendas(){
+  const select = document.getElementById("tienda");
+  if(select){
+    select.innerHTML = `<option value="">Seleccionar tienda</option>`;
+    tiendas.forEach(t => select.innerHTML += `<option value="${t}">${t}</option>`);
+  }
+
+  const apiInput = document.getElementById("apiUrl");
+  if(apiInput) apiInput.value = apiUrl;
+}
+
+function cargarFormularioApuesta(){
+  const cont = document.getElementById("formPartidos");
+  if(!cont) return;
+
+  cont.innerHTML = jornadaActual.partidos.map((p,i) => `
+    <div class="partido">
+      <strong>${p[0]} vs ${p[1]}</strong>
+      <select id="partido_${i}">
         <option value="">Seleccionar</option>
         <option value="${p[0]}">Gana ${p[0]}</option>
         <option value="Empate">Empate</option>
@@ -253,272 +182,278 @@ function cargarFormularioApuesta() {
   `).join("");
 }
 
-function guardarApuesta() {
-  const tienda = document.getElementById("tienda")?.value;
-  const responsable = document.getElementById("responsable")?.value.trim();
+function guardarApuesta(){
+  const tienda = document.getElementById("tienda").value;
+  const responsable = document.getElementById("responsable").value.trim();
 
-  if (!tienda) {
-    alert("Selecciona una tienda.");
-    return;
-  }
+  if(!tienda) return alert("Selecciona una tienda.");
+  if(!responsable) return alert("Ingresa responsable.");
 
-  if (!responsable) {
-    alert("Ingresa el responsable.");
-    return;
-  }
-
-  const pronosticos = jornadaActual.partidos.map((p, index) => {
-    const valor = document.getElementById(`partido_${index}`).value;
-    return {
-      partido: `${p[0]} vs ${p[1]}`,
-      local: p[0],
-      visita: p[1],
-      pronostico: valor
-    };
+  const pronosticos = jornadaActual.partidos.map((p,i) => {
+    const valor = document.getElementById(`partido_${i}`).value;
+    return { partido:`${p[0]} vs ${p[1]}`, pronostico:valor };
   });
 
-  if (pronosticos.some(p => !p.pronostico)) {
-    alert("Debes completar todos los pronósticos.");
-    return;
+  if(pronosticos.some(p => !p.pronostico)){
+    return alert("Completa todos los pronósticos.");
   }
 
   const registro = {
-    fechaRegistro: new Date().toISOString(),
-    jornada: jornadaActual.jornada,
-    fechaJornada: jornadaActual.fecha,
+    fecha:new Date().toISOString(),
+    jornada:jornadaActual.jornada,
     tienda,
     responsable,
     pronosticos
   };
 
-  apuestasLocales = apuestasLocales.filter(a =>
-    !(a.jornada === jornadaActual.jornada && a.tienda === tienda)
-  );
-
+  apuestasLocales = apuestasLocales.filter(a => !(a.jornada === jornadaActual.jornada && a.tienda === tienda));
   apuestasLocales.push(registro);
   localStorage.setItem("apuestas_wom", JSON.stringify(apuestasLocales));
 
-  enviarApuestaApi(registro);
-
-  alert("Apuesta registrada correctamente.");
+  alert("Apuesta guardada correctamente.");
   cargarPronosticos();
   cargarMarcador();
 }
 
-function cargarPronosticos() {
+function cargarPronosticos(){
   const cont = document.getElementById("tablaPronosticos");
-  if (!cont) return;
+  if(!cont) return;
 
   const apuestas = apuestasLocales.filter(a => a.jornada === jornadaActual.jornada);
 
-  if (!apuestas.length) {
+  if(!apuestas.length){
     cont.innerHTML = `<p>Aún no hay pronósticos registrados.</p>`;
     return;
   }
 
-  cont.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Tienda</th>
-          ${jornadaActual.partidos.map((p, i) => `<th>P${i + 1}</th>`).join("")}
-        </tr>
-      </thead>
-      <tbody>
-        ${apuestas.map(a => `
-          <tr>
-            <td>${a.tienda}</td>
-            ${a.pronosticos.map(p => `<td>${p.pronostico}</td>`).join("")}
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-  `;
+  cont.innerHTML = apuestas.map(a => `
+    <div class="ranking-row">
+      <span>${a.tienda}</span>
+      <strong>${a.pronosticos.length} pronósticos</strong>
+    </div>
+  `).join("");
 }
 
-function cargarMarcador() {
+function cargarMarcador(){
   const cont = document.getElementById("marcadorTabla");
-  if (!cont) return;
+  if(!cont) return;
 
-  const ranking = tiendas.map((tienda, index) => {
-    const apuesta = apuestasLocales.find(a =>
-      a.jornada === jornadaActual.jornada && a.tienda === tienda
-    );
+  const ranking = tiendas.map((t,i) => ({
+    tienda:t,
+    aciertos: Math.max(0, 18 - i * 2)
+  }));
 
-    return {
-      tienda,
-      aciertos: apuesta ? Math.max(0, jornadaActual.partidos.length - index % 3) : 0
-    };
-  }).sort((a, b) => b.aciertos - a.aciertos);
-
-  cont.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Pos</th>
-          <th>Tienda</th>
-          <th>Aciertos</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${ranking.map((r, i) => `
-          <tr>
-            <td>${i + 1}</td>
-            <td>${r.tienda}</td>
-            <td>${r.aciertos}</td>
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-  `;
+  cont.innerHTML = ranking.map((r,i) => `
+    <div class="ranking-row">
+      <span>${i+1}. ${r.tienda}</span>
+      <strong>${r.aciertos} pts</strong>
+    </div>
+  `).join("");
 }
 
-function cargarCopaPizza() {
+function cargarCopaPizza(){
   const cont = document.getElementById("copaPizza");
-  if (!cont) return;
+  if(!cont) return;
 
   const ranking = [
-    ["Sucursal Castro", 3],
-    ["Sucursal Osorno", 2],
-    ["Sucursal Valdivia", 1],
-    ["Sucursal Ancud", 1],
-    ["Sucursal Puerto Varas", 0],
-    ["Sucursal Puerto Montt Centro", 0],
-    ["Sucursal Paseo Costanera", 0],
-    ["Sucursal Villarrica", 0],
-    ["Kiosco Plaza Los Ríos", 0],
-    ["Kiosco Mall Castro", 0]
+    ["Sucursal Castro", 2],
+    ["Sucursal Osorno", 1],
+    ["Sucursal Puerto Montt Centro", 1],
+    ["Sucursal Ancud", 0],
+    ["Sucursal Valdivia", 0]
   ];
 
-  cont.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Pos</th>
-          <th>Tienda</th>
-          <th>Copas Pizza</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${ranking.map((r, i) => `
-          <tr>
-            <td>${i + 1}</td>
-            <td>${r[0]}</td>
-            <td>${"🏆🍕 ".repeat(r[1]) || "0"}</td>
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-  `;
+  cont.innerHTML = ranking.map((r,i) => `
+    <div class="ranking-row">
+      <span>${i+1}. ${r[0]}</span>
+      <strong>${"🍕".repeat(r[1]) || "0"}</strong>
+    </div>
+  `).join("");
 }
 
-function iniciarContador() {
+function iniciarContador(){
   const contador = document.getElementById("contador");
-  if (!contador) return;
+  if(!contador) return;
 
   setInterval(() => {
     const ahora = new Date();
     const cierre = new Date();
-    cierre.setHours(13, 0, 0, 0);
+    cierre.setHours(13,0,0,0);
 
     const diff = cierre - ahora;
 
-    if (diff <= 0) {
-      contador.textContent = "Apuestas cerradas";
+    if(diff <= 0){
+      contador.textContent = "Cerrado";
       return;
     }
 
     const h = Math.floor(diff / 1000 / 60 / 60);
     const m = Math.floor((diff / 1000 / 60) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-
-    contador.textContent =
-      `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-  }, 1000);
+    contador.textContent = `${h}:${String(m).padStart(2,"0")}`;
+  },1000);
 }
 
-function compartirPartidos() {
-  const partidosTexto = jornadaActual.partidos.length
-    ? jornadaActual.partidos.map((p, i) => `${i + 1}. ${p[0]} vs ${p[1]}`).join("\n")
-    : "Partidos pendientes de definir";
+async function generarReportePartidos(){
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1350;
+  const ctx = canvas.getContext("2d");
 
-  const texto = `🏆 MUNDIAL MULTIPRODUCTO WOM
+  fondoReporte(ctx, canvas);
 
-📅 ${jornadaActual.texto}
-⚽ Jornada ${jornadaActual.jornada} de 7
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 64px Arial";
+  ctx.fillText("MUNDIAL", 70, 120);
 
-📌 PARTIDOS DEL DÍA:
-${partidosTexto}
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 72px Arial";
+  ctx.fillText("MULTIPRODUCTO", 70, 200);
 
-🎯 CONDICIÓN WOMGO:
-${jornadaActual.fase}
-${jornadaActual.condicion}
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 36px Arial";
+  ctx.fillText("WOM MERIDIONAL", 70, 260);
 
-⏰ Cierre de apuestas: 13:00 hrs
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 46px Arial";
+  ctx.fillText("⚽ PARTIDOS DEL DÍA", 70, 380);
 
-🍕 Pronostica, cumple la meta y compite por la Copa Pizza Meridional.`;
+  let y = 470;
+  jornadaActual.partidos.forEach(p => {
+    tarjeta(ctx, 70, y, 940, 95);
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText(`${p[0]}  VS  ${p[1]}`, 110, y + 60);
+    y += 120;
+  });
 
-  compartirTexto(texto);
+  tarjeta(ctx, 70, 1050, 940, 150);
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 40px Arial";
+  ctx.fillText("🎯 CONDICIÓN DEL DÍA", 110, 1110);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 38px Arial";
+  ctx.fillText(jornadaActual.condicion, 110, 1170);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 34px Arial";
+  ctx.fillText("⏰ Cierre de apuestas: 13:00 hrs", 110, 1260);
+
+  compartirCanvas(canvas, "reporte-partidos.png");
 }
 
-function compartirMetas() {
-  const texto = `📈 METAS DEL DÍA - MUNDIAL MULTIPRODUCTO WOM
+async function generarReporteMetas(){
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1350;
+  const ctx = canvas.getContext("2d");
 
-📅 ${jornadaActual.texto}
-⚽ Jornada ${jornadaActual.jornada} de 7
+  fondoReporte(ctx, canvas);
 
-✅ Meta Accesorios
-✅ Meta Seguros
-✅ Condición WOMGO:
-${jornadaActual.condicion}
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 72px Arial";
+  ctx.fillText("METAS", 70, 140);
 
-🏪 Tiendas participantes:
-${tiendas.join("\n")}
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 72px Arial";
+  ctx.fillText("DEL DÍA", 70, 220);
 
-⏰ Cierre de apuestas: 13:00 hrs
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 36px Arial";
+  ctx.fillText("MUNDIAL MULTIPRODUCTO WOM", 70, 290);
 
-🏆🍕 Copa Pizza Meridional`;
+  tarjeta(ctx, 70, 370, 940, 260);
 
-  compartirTexto(texto);
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 42px Arial";
+  ctx.fillText("✅ Meta Accesorios", 120, 450);
+  ctx.fillText("✅ Meta Seguros", 120, 520);
+  ctx.fillText(`✅ ${jornadaActual.condicion}`, 120, 590);
+
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 42px Arial";
+  ctx.fillText("🏪 TIENDAS PARTICIPANTES", 70, 720);
+
+  let y = 790;
+  tiendas.forEach(t => {
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 28px Arial";
+    ctx.fillText(`• ${t}`, 100, y);
+    y += 45;
+  });
+
+  tarjeta(ctx, 70, 1180, 940, 110);
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 34px Arial";
+  ctx.fillText("🍕 Solo compiten tiendas que cumplan las condiciones", 100, 1245);
+
+  compartirCanvas(canvas, "reporte-metas.png");
 }
 
-function compartirTexto(texto) {
-  if (navigator.share) {
-    navigator.share({
-      title: "Mundial Multiproducto WOM",
-      text: texto
-    });
-  } else {
-    navigator.clipboard.writeText(texto);
-    alert("Texto copiado para compartir por WhatsApp.");
-  }
+function fondoReporte(ctx, canvas){
+  const grad = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+  grad.addColorStop(0,"#140028");
+  grad.addColorStop(.5,"#5b00c8");
+  grad.addColorStop(1,"#090015");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 54px Arial";
+  ctx.fillText("WOM", 70, 70);
+
+  ctx.fillStyle = "#ff2f92";
+  ctx.font = "bold 32px Arial";
+  ctx.fillText("MERIDIONAL", 70, 105);
 }
 
-function guardarApi() {
+function tarjeta(ctx,x,y,w,h){
+  ctx.fillStyle = "rgba(20,0,40,.85)";
+  ctx.strokeStyle = "rgba(255,255,255,.25)";
+  ctx.lineWidth = 3;
+  roundRect(ctx,x,y,w,h,28,true,true);
+}
+
+function roundRect(ctx,x,y,w,h,r,fill,stroke){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+  if(fill) ctx.fill();
+  if(stroke) ctx.stroke();
+}
+
+function compartirCanvas(canvas,nombre){
+  canvas.toBlob(async blob => {
+    const file = new File([blob], nombre, { type:"image/png" });
+
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      await navigator.share({
+        title:"Mundial Multiproducto WOM",
+        files:[file]
+      });
+    }else{
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = nombre;
+      a.click();
+      alert("Imagen generada. Descárgala y compártela por WhatsApp.");
+    }
+  });
+}
+
+function guardarApi(){
   const input = document.getElementById("apiUrl");
-  if (!input) return;
-
+  if(!input) return;
   apiUrl = input.value.trim();
   localStorage.setItem("api_wom", apiUrl);
-  alert("URL guardada.");
-}
-
-async function enviarApuestaApi(registro) {
-  if (!apiUrl) return;
-
-  try {
-    await fetch(apiUrl, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        action: "guardarApuesta",
-        data: registro
-      })
-    });
-  } catch (error) {
-    console.log("No se pudo enviar a Apps Script", error);
-  }
+  alert("Conexión guardada.");
 }
