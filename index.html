@@ -4,104 +4,99 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mundial Multiproducto WOM</title>
-
   <link rel="stylesheet" href="styles.css" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 </head>
-
 <body>
-
   <div id="splashScreen">
     <div class="splash-content">
       <div class="splash-icon">🏆⚽📈</div>
       <h1>MUNDIAL<br>MULTIPRODUCTO</h1>
       <h2>WOM MERIDIONAL</h2>
       <p>Pronostica • Cumple • Compite • Gana</p>
-
-      <div class="loader-bar">
-        <span></span>
-      </div>
-
+      <div class="loader-bar"><span></span></div>
       <small id="loadingText">Cargando jornada...</small>
     </div>
   </div>
 
   <main id="app" class="app hidden">
-
     <section id="inicio" class="screen active">
-
-      <header class="hero-card compact">
+      <header class="hero-card">
         <span class="brand">WOM MERIDIONAL</span>
         <h1>🏆 Mundial Multiproducto</h1>
-
-        <div class="hero-row compact-row">
-          <div>
-            <small>Jornada</small>
-            <strong id="jornadaActual">1 de 7</strong>
-          </div>
-
-          <div>
-            <small>Fecha</small>
-            <strong id="fechaJornada">Viernes 19 de junio</strong>
-          </div>
+        <div class="hero-row">
+          <div><small>Jornada</small><strong id="jornadaActual">1 de 7</strong></div>
+          <div><small>Fecha</small><strong id="fechaJornada">Viernes 19 de junio</strong></div>
         </div>
       </header>
 
       <section class="home-grid">
-
-        <div class="info-card prize-card compact-card">
+        <article class="info-card prize-card">
           <h2>🎁 Premio</h2>
-          <p id="premioDia">🍕 Pizza para la tienda ganadora</p>
-        </div>
+          <p id="premioDia">🍕 Pizza Familiar con delivery al almuerzo del día hábil siguiente</p>
+        </article>
 
-        <div class="info-card compact-card">
-          <h2>🏆 Cómo ganar</h2>
-          <ul class="compact-list">
-            <li>Condición del día</li>
-            <li>Meta diaria</li>
-            <li>Más aciertos</li>
-          </ul>
-        </div>
+        <article class="info-card how-card">
+          <h2>🏆 Cómo ganar la jornada</h2>
 
+          <div class="how-step">
+            <div class="how-icon">🎯</div>
+            <div>
+              <strong>Filtro 1: cumplir las 3 metas comerciales</strong>
+              <p>Accesorios ($), Seguros (Q) y WOMGO. Si falla una meta, la tienda queda fuera de competencia ese día.</p>
+            </div>
+          </div>
+
+          <div class="how-step">
+            <div class="how-icon">📈</div>
+            <div>
+              <strong>WOMGO cambia por fase</strong>
+              <p>Fase 1: mínimo 1 WOMGO. Fase 2: 50%. Fase 3: 80%. Final: 100%.</p>
+            </div>
+          </div>
+
+          <div class="how-step">
+            <div class="how-icon">⚽</div>
+            <div>
+              <strong>Filtro 2: pronósticos mundialistas</strong>
+              <p>Solo las tiendas clasificadas por metas compiten por aciertos de partidos.</p>
+            </div>
+          </div>
+
+          <div class="how-step">
+            <div class="how-icon">🏆</div>
+            <div>
+              <strong>Gana la tienda clasificada con más aciertos</strong>
+              <p>La tienda ganadora obtiene el premio de la jornada.</p>
+            </div>
+          </div>
+        </article>
       </section>
 
-      <section class="matches-section compact-card">
-        <div class="section-title">
-          <h2>⚽ Partidos de la jornada</h2>
-        </div>
-
-        <div id="partidosHoy" class="match-list compact-list-matches"></div>
+      <section class="matches-section">
+        <div class="section-title"><h2>⚽ Partidos de la jornada</h2></div>
+        <div id="partidosHoy" class="match-list"></div>
       </section>
 
-      <button class="primary-btn" onclick="showSection('apostar')">
-        ⚽ Apostar Ahora
-      </button>
-
+      <button class="primary-btn" onclick="showSection('apostar')">⚽ Apostar Ahora</button>
     </section>
 
     <section id="apostar" class="screen">
-
       <header class="screen-header">
         <button onclick="showSection('inicio')">←</button>
         <h1>⚽ Apostar</h1>
       </header>
 
-      <section class="form-card compact-card">
+      <section class="form-card">
         <label for="tienda">Tienda</label>
         <select id="tienda"></select>
       </section>
 
       <section id="formPartidos" class="bet-list"></section>
 
-      <button id="btnGuardar" class="primary-btn" onclick="guardarApuesta()">
-        💾 Guardar apuesta
-      </button>
+      <button id="btnGuardar" class="primary-btn" onclick="guardarApuesta()">💾 Guardar apuesta</button>
 
       <section id="apuestaGuardada" class="success-box hidden">
         <div class="success-card">
@@ -109,150 +104,90 @@
           <p>La apuesta ya fue enviada y no puede modificarse.</p>
           <small id="fechaRegistro"></small>
         </div>
-
-        <button class="share-btn" onclick="compartirApuesta()">
-          📤 Compartir mi apuesta
-        </button>
+        <button class="share-btn" onclick="compartirApuesta()">📤 Compartir nuestra apuesta</button>
       </section>
-
     </section>
 
     <section id="pronosticos" class="screen">
-
       <header class="screen-header">
         <button onclick="showSection('inicio')">←</button>
         <h1>📢 Pronósticos</h1>
       </header>
-
-      <section class="info-card compact-card">
+      <section class="info-card">
         <h2>Apuestas de las tiendas</h2>
         <p>Revisa qué eligió cada tienda para la jornada.</p>
       </section>
-
       <section id="listaPronosticos" class="prediction-list"></section>
-
     </section>
 
     <section id="condicionMeta" class="screen">
-
       <header class="screen-header">
         <button onclick="showSection('inicio')">←</button>
-        <h1>🎯 Condición / Meta</h1>
+        <h1>🎯 Estado de competencia</h1>
       </header>
-
-      <section class="info-card compact-card">
+      <section class="info-card">
         <h2>🎯 Condición del día</h2>
-        <p id="condicionDia">Mínimo 1 WOMGO vendido</p>
+        <p id="condicionDia">Cumplir las 3 metas comerciales del día.</p>
       </section>
-
-      <section class="info-card compact-card">
+      <section class="info-card">
         <h2>📈 Metas por tienda</h2>
-        <div id="metasTienda" class="goals-list compact-goals"></div>
+        <div id="metasTienda" class="goals-list"></div>
       </section>
-
-      <section class="info-card compact-card">
-        <h2>🏆 Estado de competencia</h2>
-        <p>Compite quien cumpla condición, meta diaria y tenga más aciertos.</p>
-      </section>
-
     </section>
 
     <section id="resultados" class="screen">
-
       <header class="screen-header">
         <button onclick="showSection('inicio')">←</button>
         <h1>🏁 Resultados</h1>
       </header>
-
-      <section class="info-card compact-card">
+      <section class="info-card">
         <h2>⚽ Resultados de partidos</h2>
-        <div id="resultadosPartidos" class="results-list compact-results"></div>
+        <div id="resultadosPartidos" class="results-list"></div>
       </section>
-
-      <section class="info-card compact-card">
+      <section class="info-card">
         <h2>🏆 Resultado de la jornada</h2>
         <div id="resultadoJornada"></div>
       </section>
-
     </section>
 
     <section id="adminPanel" class="screen">
-
       <header class="screen-header">
         <button onclick="showSection('inicio')">←</button>
         <h1>⚙️ Admin</h1>
       </header>
 
-      <section id="adminLogin" class="form-card compact-card">
+      <section id="adminLogin" class="form-card">
         <label for="adminPass">Código administrador</label>
         <input id="adminPass" type="password" placeholder="Ingresa el código" />
-
-        <button class="primary-btn" onclick="validarAdmin()">
-          Ingresar
-        </button>
+        <button class="primary-btn" onclick="validarAdmin()">Ingresar</button>
       </section>
 
       <section id="adminContent" class="hidden">
-
-        <section class="form-card compact-card">
-          <h2>Configuración</h2>
-
+        <section class="form-card">
+          <h2>Conexión Google Sheets</h2>
           <label for="apiUrl">URL Apps Script</label>
           <input id="apiUrl" placeholder="Pega aquí la URL del Apps Script" />
-
-          <button class="secondary-btn" onclick="guardarApi()">
-            Guardar conexión
-          </button>
+          <button class="secondary-btn" onclick="guardarApi()">Guardar conexión</button>
+          <button class="secondary-btn" onclick="probarConexion()">Probar conexión</button>
         </section>
 
-        <section class="form-card compact-card">
+        <section class="form-card">
           <h2>Acciones rápidas</h2>
-
-          <button class="secondary-btn" onclick="limpiarApuestas()">
-            Reiniciar apuestas locales
-          </button>
-
-          <button class="secondary-btn" onclick="reabrirApuestaAdmin()">
-            Reabrir apuesta
-          </button>
+          <button class="secondary-btn" onclick="cargarDesdeServidor()">Actualizar datos</button>
+          <button class="secondary-btn" onclick="limpiarApuestasLocales()">Limpiar caché local</button>
+          <button class="secondary-btn" onclick="reabrirApuestaAdmin()">Reabrir apuesta local</button>
         </section>
-
       </section>
-
     </section>
-
   </main>
 
   <nav class="bottom-nav">
-    <button onclick="showSection('inicio')">
-      🏠
-      <small>Inicio</small>
-    </button>
-
-    <button onclick="showSection('apostar')">
-      ⚽
-      <small>Apostar</small>
-    </button>
-
-    <button onclick="showSection('pronosticos')">
-      📢
-      <small>Pronósticos</small>
-    </button>
-
-    <button onclick="showSection('condicionMeta')">
-      🎯
-      <small>Meta</small>
-    </button>
-
-    <button onclick="showSection('resultados')">
-      🏁
-      <small>Resultados</small>
-    </button>
-
-    <button onclick="showSection('adminPanel')">
-      ⚙️
-      <small>Admin</small>
-    </button>
+    <button onclick="showSection('inicio')">🏠<small>Inicio</small></button>
+    <button onclick="showSection('apostar')">⚽<small>Apostar</small></button>
+    <button onclick="showSection('pronosticos')">📢<small>Pronósticos</small></button>
+    <button onclick="showSection('condicionMeta')">🎯<small>Meta</small></button>
+    <button onclick="showSection('resultados')">🏁<small>Resultados</small></button>
+    <button onclick="showSection('adminPanel')">⚙️<small>Admin</small></button>
   </nav>
 
   <script src="script.js"></script>
