@@ -5,16 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mundial Multiproducto WOM</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-
 <body>
   <div id="splashScreen">
     <div class="splash-content">
       <div class="splash-icon">🏆⚽📈</div>
-      <h1>MUNDIAL<br />MULTIPRODUCTO</h1>
+      <h1>MUNDIAL<br>MULTIPRODUCTO</h1>
       <h2>WOM MERIDIONAL</h2>
       <p>Pronostica • Cumple • Compite • Gana</p>
       <div class="loader-bar"><span></span></div>
@@ -34,11 +33,20 @@
       </header>
 
       <section class="banner-wom">
-        <span class="banner-tag">🏆 COMPETENCIA DIARIA</span>
-        <h2>Cómo ganar la jornada</h2>
-        <p>Cumple la condición, logra tus metas y registra tu pronóstico para competir por el premio.</p>
-        <div class="banner-prize" id="bannerPremio">🎁 Premio: Pizza Familiar</div>
+        <h2>🏆 Mundial Multiproducto WOM</h2>
+        <p>Cumple tus metas, registra tu pronóstico y compite por el premio diario.</p>
+        <strong id="bannerPremio">🎁 Pizza Familiar para la tienda ganadora</strong>
         <button onclick="showSection('reglasFifa')">📖 Ver Reglas FIFA</button>
+      </section>
+
+      <section class="winner-banner">
+        <h2>🏆 Ganador de la jornada</h2>
+        <p id="ganadorJornadaInicio">Resultado pendiente de actualización</p>
+      </section>
+
+      <section class="info-card prize-card">
+        <h2>🎁 Premio de la jornada</h2>
+        <p id="premioDia">🍕 Pizza Familiar</p>
       </section>
 
       <section class="matches-section">
@@ -50,20 +58,13 @@
     </section>
 
     <section id="apostar" class="screen">
-      <header class="screen-header">
-        <button onclick="showSection('inicio')">←</button>
-        <h1>⚽ Apostar</h1>
-      </header>
-
+      <header class="screen-header"><button onclick="showSection('inicio')">←</button><h1>⚽ Apostar</h1></header>
       <section class="form-card">
         <label for="tienda">Tienda</label>
         <select id="tienda"></select>
       </section>
-
       <section id="formPartidos" class="bet-list"></section>
-
       <button id="btnGuardar" class="primary-btn" onclick="guardarApuesta()">💾 Guardar apuesta</button>
-
       <section id="apuestaGuardada" class="success-box hidden">
         <div class="success-card">
           <h2>✅ Apuesta registrada</h2>
@@ -75,119 +76,64 @@
     </section>
 
     <section id="pronosticos" class="screen">
-      <header class="screen-header">
-        <button onclick="showSection('inicio')">←</button>
-        <h1>📢 Pronósticos</h1>
-      </header>
-      <section class="info-card">
-        <h2>Apuestas de las tiendas</h2>
-        <p>Revisa qué eligió cada tienda para la jornada.</p>
-      </section>
+      <header class="screen-header"><button onclick="showSection('inicio')">←</button><h1>📢 Pronósticos</h1></header>
+      <section class="info-card"><h2>Apuestas de las tiendas</h2><p>Revisa qué eligió cada tienda para la jornada.</p></section>
       <section id="listaPronosticos" class="prediction-list"></section>
     </section>
 
     <section id="condicionMeta" class="screen">
-      <header class="screen-header">
-        <button onclick="showSection('inicio')">←</button>
-        <h1>🎯 Metas</h1>
-      </header>
-      <section class="info-card">
-        <h2>🎯 Estado de competencia</h2>
-        <p id="condicionDia">Condición → Metas → Aciertos.</p>
-      </section>
-      <section class="info-card">
-        <h2>📈 Metas por tienda</h2>
-        <div id="metasTienda" class="goals-list"></div>
-      </section>
+      <header class="screen-header"><button onclick="showSection('inicio')">←</button><h1>🎯 Metas</h1></header>
+      <section class="info-card"><h2>🎯 Estado de competencia</h2><p id="condicionDia">Para competir, la tienda debe cumplir sus metas.</p></section>
+      <section class="info-card"><h2>📈 Metas por tienda</h2><div id="metasTienda" class="goals-list"></div></section>
     </section>
 
     <section id="reglasFifa" class="screen">
-      <header class="screen-header">
-        <button onclick="showSection('inicio')">←</button>
-        <h1>📖 Reglas FIFA</h1>
-      </header>
-
+      <header class="screen-header"><button onclick="showSection('inicio')">←</button><h1>📖 Reglas FIFA</h1></header>
       <section class="info-card rules-card">
         <h2>🏆 Objetivo</h2>
-        <p>Cada tienda debe aportar al cumplimiento comercial diario y participar en la dinámica mundialista de pronósticos de la jornada.</p>
-
-        <h2>🎯 Filtro 1: Condición del día</h2>
-        <p>Para competir por el premio, la tienda debe cumplir primero la condición definida para la jornada.</p>
-
-        <h2>📈 Filtro 2: Metas comerciales</h2>
-        <p>Además de la condición, cada tienda debe cumplir sus metas diarias asignadas:</p>
-        <ul>
-          <li>Accesorios $</li>
-          <li>Seguros Q</li>
-          <li>WOMGO</li>
-        </ul>
-        <p>Si la tienda no cumple la condición o falla una de estas metas, queda fuera de competencia por el premio del día, aunque tenga buenos pronósticos.</p>
-
+        <p>Cada tienda debe aportar al cumplimiento comercial diario y participar en la polla mundialista de la jornada.</p>
+        <h2>🎯 Filtro 1: Clasificación comercial</h2>
+        <p>Para competir por el premio, la tienda debe cumplir sus metas diarias asignadas:</p>
+        <ul><li>Accesorios $</li><li>Seguros Q</li><li>WOMGO</li></ul>
+        <p>Si la tienda no cumple una de estas metas, queda fuera de competencia por el premio del día, aunque tenga buenos pronósticos.</p>
         <h2>⚠️ Importante</h2>
         <p>Si una tienda no aporta durante la jornada, el pozo de meta pendiente aumenta y la presión comercial sube hacia el final del concurso.</p>
         <p>Mientras menos se avance hoy, más alta será la exigencia para los próximos días.</p>
-
-        <h2>⚽ Filtro 3: Pronósticos mundialistas</h2>
-        <p>Solo las tiendas clasificadas por condición y metas compiten por aciertos en los partidos.</p>
-
+        <h2>⚽ Filtro 2: Pronósticos mundialistas</h2>
+        <p>Solo las tiendas que cumplan sus metas comerciales quedan clasificadas para competir por aciertos.</p>
         <h2>🔒 Apuesta bloqueada</h2>
-        <p>Cada tienda registra una sola apuesta por jornada. Una vez enviada, queda registrada con fecha y hora y no puede modificarse.</p>
-
+        <p>Una vez enviada, la apuesta queda registrada con fecha y hora y no puede modificarse.</p>
         <h2>🏆 Ganador de la jornada</h2>
         <p>Gana la tienda clasificada que logre la mayor cantidad de aciertos en los partidos del día.</p>
-
         <h2>🎁 Premio</h2>
         <p>Pizza Familiar para la tienda ganadora.</p>
-
-        <h2>📌 Reglas operativas</h2>
-        <ul>
-          <li>Una apuesta por tienda.</li>
-          <li>Las apuestas quedan visibles para todas las tiendas.</li>
-          <li>Los resultados se actualizan desde administración.</li>
-          <li>Las metas se revisan desde Google Sheets.</li>
-          <li>La tienda debe cumplir condición y metas antes de competir por aciertos.</li>
-        </ul>
       </section>
     </section>
 
     <section id="resultados" class="screen">
-      <header class="screen-header">
-        <button onclick="showSection('inicio')">←</button>
-        <h1>🏁 Resultados</h1>
-      </header>
-      <section class="info-card">
-        <h2>⚽ Resultados de partidos</h2>
-        <div id="resultadosPartidos" class="results-list"></div>
-      </section>
-      <section class="info-card">
-        <h2>🏆 Resultado de la jornada</h2>
-        <div id="resultadoJornada"></div>
-      </section>
+      <header class="screen-header"><button onclick="showSection('inicio')">←</button><h1>🏁 Resultados</h1></header>
+      <section class="info-card"><h2>⚽ Resultados de partidos</h2><div id="resultadosPartidos" class="results-list"></div></section>
+      <section class="info-card"><h2>🏆 Resultado de la jornada</h2><div id="resultadoJornada"></div></section>
     </section>
 
     <section id="adminPanel" class="screen">
-      <header class="screen-header">
-        <button onclick="showSection('inicio')">←</button>
-        <h1>⚙️ Admin</h1>
-      </header>
-
+      <header class="screen-header"><button onclick="showSection('inicio')">←</button><h1>⚙️ Admin</h1></header>
       <section id="adminLogin" class="form-card">
         <label for="adminPass">Código administrador</label>
         <input id="adminPass" type="password" placeholder="Ingresa el código" />
         <button class="primary-btn" onclick="validarAdmin()">Ingresar</button>
       </section>
-
       <section id="adminContent" class="hidden">
         <section class="form-card">
-          <h2>Conexión Google Sheets</h2>
-          <p class="admin-note">Conexión configurada para todos los dispositivos.</p>
+          <h2>Estado conexión</h2>
+          <p id="estadoConexion">Conectado a Google Sheets</p>
           <button class="secondary-btn" onclick="probarConexion()">Probar conexión</button>
+          <button class="secondary-btn" onclick="cargarDesdeServidor(true)">Actualizar datos</button>
         </section>
-
         <section class="form-card">
           <h2>Acciones rápidas</h2>
-          <button class="secondary-btn" onclick="cargarDesdeServidor(true)">Actualizar datos</button>
           <button class="secondary-btn" onclick="limpiarApuestasLocales()">Limpiar caché local</button>
+          <button class="secondary-btn" onclick="reabrirApuestaAdmin()">Reabrir apuesta local</button>
         </section>
       </section>
     </section>
