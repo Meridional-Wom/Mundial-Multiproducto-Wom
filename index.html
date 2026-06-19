@@ -8,65 +8,72 @@
 </head>
 
 <body>
+
+  <!-- SPLASH -->
+  <div id="splash">
+    <div class="splash-card">
+      <div class="splash-icon">🏆⚽📈</div>
+      <h1>MUNDIAL<br>MULTIPRODUCTO</h1>
+      <p>WOM MERIDIONAL</p>
+      <small>Cargando jornada...</small>
+    </div>
+  </div>
+
   <main class="app">
 
     <!-- INICIO -->
     <section id="inicio" class="screen active">
 
-      <header class="hero-card">
-        <img src="banner.png" alt="Mundial Multiproducto WOM" />
+      <header class="app-header">
+        <p>WOM MERIDIONAL</p>
+        <h1>🏆 Mundial Multiproducto</h1>
+        <span>Pronostica • Cumple • Compite • Gana</span>
       </header>
 
-      <section class="status-bar">
+      <section class="top-row">
         <div>
-          <span>📅</span>
-          <p>Jornada <strong id="jornadaActual">1 de 7</strong></p>
+          <small>Jornada</small>
+          <strong id="jornadaActual">1 de 7</strong>
         </div>
 
         <div>
-          <span>⏰</span>
-          <p>Cierre <strong id="contador">13:00</strong></p>
+          <small>Cierre</small>
+          <strong id="contador">13:00</strong>
         </div>
       </section>
 
-      <section class="challenge-grid">
-        <article class="challenge-card">
-          <span>🎯</span>
-          <div>
-            <small>Condición del día</small>
-            <h2 id="condicionDia">1 WOMGO vendido</h2>
-          </div>
+      <section class="requirements">
+        <article>
+          <small>🎯 Condición del día</small>
+          <h2 id="condicionDia">Mínimo 1 WOMGO vendido</h2>
+          <p id="estadoCondicion">Pendiente</p>
         </article>
 
-        <article class="challenge-card clickable" onclick="showSection('avance')">
-          <span>📈</span>
-          <div>
-            <small>Meta del día</small>
-            <h2>Ver avance</h2>
-          </div>
-          <b>›</b>
+        <article onclick="showSection('avance')">
+          <small>📈 Meta del día</small>
+          <h2 id="metaResumen">5 / 8 ventas</h2>
+          <div class="mini-bar"><span id="metaBarra"></span></div>
+          <p id="estadoMeta">63% cumplido</p>
         </article>
       </section>
 
-      <section class="fixture-card">
-        <div class="fixture-header">
+      <section class="eligibility">
+        <h2>🏆 Estado Copa Pizza</h2>
+        <p id="estadoCompetencia">No compite aún</p>
+      </section>
+
+      <section class="matches-box">
+        <div class="box-title">
           <h2>⚽ Partidos de hoy</h2>
-          <span id="fechaJornada">Hoy</span>
+          <small id="fechaJornada">Viernes 19 de junio</small>
         </div>
 
-        <div id="partidosHoy" class="fixture-list"></div>
+        <div id="partidosHoy"></div>
       </section>
 
-      <section class="main-actions">
-        <button onclick="showSection('apuesta')" class="action-main">
-          📝 Apostar ahora
-          <small>Envía tus pronósticos</small>
-        </button>
-
-        <button onclick="generarReportePartidos()" class="action-share">
-          📤 Compartir
-          <small>Jornada del día</small>
-        </button>
+      <section class="actions">
+        <button onclick="showSection('apuesta')" class="primary">📝 Apostar ahora</button>
+        <button onclick="generarReportePartidos()" class="secondary">📤 Compartir jornada</button>
       </section>
 
     </section>
@@ -75,7 +82,7 @@
     <section id="apuesta" class="screen">
       <header class="section-head">
         <button onclick="showSection('inicio')">←</button>
-        <h1>⚽ Apuesta de Hoy</h1>
+        <h1>⚽ Apuesta</h1>
       </header>
 
       <section class="panel">
@@ -87,7 +94,7 @@
 
         <div id="formPartidos"></div>
 
-        <button class="full-btn" onclick="guardarApuesta()">Guardar apuesta</button>
+        <button class="primary full" onclick="guardarApuesta()">Guardar apuesta</button>
       </section>
     </section>
 
@@ -115,7 +122,7 @@
       </section>
     </section>
 
-    <!-- COPA PIZZA -->
+    <!-- COPA -->
     <section id="copa" class="screen">
       <header class="section-head">
         <button onclick="showSection('inicio')">←</button>
@@ -149,14 +156,12 @@
       <section class="panel">
         <label>URL Apps Script</label>
         <input id="apiUrl" placeholder="Pega aquí la URL del Apps Script" />
-
-        <button class="full-btn" onclick="guardarApi()">Guardar conexión</button>
+        <button class="primary full" onclick="guardarApi()">Guardar conexión</button>
       </section>
     </section>
 
   </main>
 
-  <!-- MENÚ INFERIOR -->
   <nav class="bottom-nav">
     <button onclick="showSection('inicio')">🏠<small>Inicio</small></button>
     <button onclick="showSection('apuesta')">⚽<small>Apuesta</small></button>
