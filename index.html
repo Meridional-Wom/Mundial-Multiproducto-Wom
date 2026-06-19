@@ -33,16 +33,16 @@
         </div>
       </header>
 
-      <section class="banner-wom">
-        <h2>🏆 Mundial Multiproducto WOM</h2>
-        <p>Cumple condición, logra tus metas, registra tu pronóstico y compite por el premio diario.</p>
-        <strong id="bannerPremio">🎁 Pizza Familiar para la tienda ganadora</strong>
-        <button onclick="showSection('reglasFifa')">📖 Ver Reglas FIFA</button>
+      <section class="image-banner">
+        <img src="banner.png" alt="Mundial Multiproducto WOM" />
       </section>
 
-      <section class="info-card prize-card">
-        <h2>🎁 Premio de la jornada</h2>
-        <p id="premioDia">🍕 Pizza Familiar</p>
+      <section class="banner-wom">
+        <span class="banner-tag">🏆 COMPETENCIA DIARIA</span>
+        <h2>Cómo ganar la jornada</h2>
+        <p>Cumple la condición, logra tus metas y registra tu pronóstico para competir por el premio.</p>
+        <div class="banner-prize" id="bannerPremio">🎁 Premio: Pizza Familiar</div>
+        <button onclick="showSection('reglasFifa')">📖 Ver Reglas FIFA</button>
       </section>
 
       <section class="matches-section">
@@ -83,12 +83,10 @@
         <button onclick="showSection('inicio')">←</button>
         <h1>📢 Pronósticos</h1>
       </header>
-
       <section class="info-card">
         <h2>Apuestas de las tiendas</h2>
         <p>Revisa qué eligió cada tienda para la jornada.</p>
       </section>
-
       <section id="listaPronosticos" class="prediction-list"></section>
     </section>
 
@@ -97,12 +95,10 @@
         <button onclick="showSection('inicio')">←</button>
         <h1>🎯 Metas</h1>
       </header>
-
       <section class="info-card">
         <h2>🎯 Estado de competencia</h2>
         <p id="condicionDia">Condición → Metas → Aciertos.</p>
       </section>
-
       <section class="info-card">
         <h2>📈 Metas por tienda</h2>
         <div id="metasTienda" class="goals-list"></div>
@@ -117,7 +113,7 @@
 
       <section class="info-card rules-card">
         <h2>🏆 Objetivo</h2>
-        <p>Cada tienda debe aportar al cumplimiento comercial diario y participar en la polla mundialista de la jornada.</p>
+        <p>Cada tienda debe aportar al cumplimiento comercial diario y participar en la dinámica mundialista de pronósticos de la jornada.</p>
 
         <h2>🎯 Filtro 1: Condición del día</h2>
         <p>Para competir por el premio, la tienda debe cumplir primero la condición definida para la jornada.</p>
@@ -163,12 +159,10 @@
         <button onclick="showSection('inicio')">←</button>
         <h1>🏁 Resultados</h1>
       </header>
-
       <section class="info-card">
         <h2>⚽ Resultados de partidos</h2>
         <div id="resultadosPartidos" class="results-list"></div>
       </section>
-
       <section class="info-card">
         <h2>🏆 Resultado de la jornada</h2>
         <div id="resultadoJornada"></div>
@@ -200,7 +194,6 @@
           <h2>Acciones rápidas</h2>
           <button class="secondary-btn" onclick="cargarDesdeServidor(true)">Actualizar datos</button>
           <button class="secondary-btn" onclick="limpiarApuestasLocales()">Limpiar caché local</button>
-          <button class="secondary-btn" onclick="reabrirApuestaAdmin()">Reabrir apuesta local</button>
         </section>
       </section>
     </section>
