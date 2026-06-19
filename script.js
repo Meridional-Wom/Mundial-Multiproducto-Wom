@@ -1,4 +1,4 @@
-const DEFAULT_API_URL = "";
+const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbyb6FGbZw-JZ-fihSfjux0bJ3Two4tfgOXhq88RlET2fp75Y79kh1TS5Vp-XczLRLZoLg/exec";
 const ADMIN_PASS = "Meridional";
 
 let config = {};
@@ -38,7 +38,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   showSection("inicio");
 });
 
-function getApiUrl(){ return (localStorage.getItem("api_wom") || DEFAULT_API_URL || "").trim(); }
+function getApiUrl(){
+  return DEFAULT_API_URL.trim();
+}
 
 async function cargarDesdeServidor(showAlert=false){
   try{
