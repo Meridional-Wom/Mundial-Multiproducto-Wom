@@ -9,60 +9,96 @@
 
 <body>
   <div class="app">
+
     <aside class="sidebar">
-      <h1>WOM</h1>
-      <h2>Mundial<br>Multiproducto<br>2026</h2>
+      <div class="brand">
+        <h1>WOM</h1>
+        <p>MERIDIONAL</p>
+      </div>
 
       <nav>
         <button onclick="showSection('inicio')">🏠 Inicio</button>
-        <button onclick="showSection('apuesta')">⚽ Apuesta de Hoy</button>
-        <button onclick="showSection('pronosticos')">📢 Pronósticos</button>
-        <button onclick="showSection('marcador')">🔥 Marcador</button>
+        <button onclick="showSection('apuesta')">⚽ Realizar Apuesta</button>
+        <button onclick="showSection('pronosticos')">📢 Ver Pronósticos</button>
+        <button onclick="showSection('marcador')">🔥 Marcador Mundialista</button>
         <button onclick="showSection('copa')">🏆🍕 Copa Pizza</button>
-        <button onclick="showSection('admin')">⚙️ Admin</button>
+        <button onclick="showSection('reportes')">📊 Reportes</button>
+        <button onclick="showSection('admin')">⚙️ Administración</button>
       </nav>
     </aside>
 
     <main class="content">
+
       <section id="inicio" class="section active">
-        <div class="hero">
-          <div>
+
+        <div class="hero-banner">
+          <div class="hero-content">
+            <span class="hero-badge">🏆🍕 COPA PIZZA MERIDIONAL</span>
+            <h1>MUNDIAL<br><strong>MULTIPRODUCTO</strong></h1>
+            <h2>WOM MERIDIONAL</h2>
+            <p>Pronostica • Cumple la Meta • Gana la Pizza 🍕</p>
+            <button class="hero-btn" onclick="showSection('apuesta')">⚽ Realizar Pronóstico</button>
+          </div>
+        </div>
+
+        <div class="home-stats">
+          <div class="stat-card">
+            <span>📅</span>
             <p>Jornada actual</p>
-            <h2 id="jornadaActual">Jornada 1 de 7</h2>
+            <h3 id="jornadaActual">Jornada 1 de 7</h3>
           </div>
-          <div>
-            <p>Cierre de apuestas</p>
-            <h2 id="contador">13:00 PM</h2>
+
+          <div class="stat-card">
+            <span>⏰</span>
+            <p>Cierre apuestas</p>
+            <h3 id="contador">13:00</h3>
           </div>
-          <div>
+
+          <div class="stat-card">
+            <span>🏪</span>
             <p>Tiendas</p>
-            <h2>10</h2>
+            <h3>10 participantes</h3>
           </div>
+        </div>
+
+        <div class="condition-card">
+          <div>
+            <span>🎯</span>
+          </div>
+          <div>
+            <p>Condición del día</p>
+            <h3 id="condicionDia">Cumplir requisito WOMGO</h3>
+          </div>
+        </div>
+
+        <div class="action-grid">
+          <button onclick="showSection('apuesta')">⚽ Realizar Apuesta</button>
+          <button onclick="showSection('pronosticos')">📢 Ver Pronósticos</button>
+          <button onclick="showSection('marcador')">🔥 Marcador Mundialista</button>
+          <button onclick="showSection('copa')">🏆🍕 Copa Pizza</button>
+          <button onclick="compartirPartidos()">📲 Compartir Partidos y Condición</button>
+          <button onclick="compartirMetas()">📈 Compartir Metas del Día</button>
         </div>
 
         <div class="grid">
           <div class="card">
-            <h3>⚽ Partidos de Hoy</h3>
+            <h3>⚽ Partidos de la Jornada</h3>
             <div id="partidosHoy"></div>
           </div>
 
           <div class="card trophy">
-            <h3>🏆🍕 Campeón de la Jornada Anterior</h3>
+            <h3>🏆🍕 Pizza Ganada</h3>
             <h2 id="campeonAyer">Pendiente</h2>
-            <p>Pizza ganada</p>
-          </div>
-
-          <div class="card">
-            <h3>📈 Requisitos Comerciales</h3>
-            <p>Accesorios + Seguros + WOMGO</p>
-            <p class="small">La apuesta solo es válida si la tienda cumple los 3 requisitos.</p>
+            <p>Resultado oficial de la jornada anterior</p>
           </div>
         </div>
+
       </section>
 
       <section id="apuesta" class="section">
         <div class="card">
           <h2>⚽ Apuesta de Hoy</h2>
+          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
 
           <label>Tienda</label>
           <select id="tienda"></select>
@@ -73,13 +109,14 @@
           <div id="formPartidos"></div>
 
           <button class="primary" onclick="guardarApuesta()">Enviar / Editar Apuesta</button>
-          <p class="small">Puedes modificar tu apuesta hasta las 13:00.</p>
+          <p class="small">Puedes modificar tu apuesta hasta las 13:00 hrs.</p>
         </div>
       </section>
 
       <section id="pronosticos" class="section">
         <div class="card">
           <h2>📢 Pronósticos de la Jornada</h2>
+          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
           <p class="small">Se muestran después del cierre de apuestas.</p>
           <div id="tablaPronosticos"></div>
         </div>
@@ -88,6 +125,7 @@
       <section id="marcador" class="section">
         <div class="card">
           <h2>🔥 Marcador Mundialista</h2>
+          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
           <div id="marcadorTabla"></div>
           <p class="small">Ranking deportivo referencial sujeto a validación comercial.</p>
         </div>
@@ -96,27 +134,67 @@
       <section id="copa" class="section">
         <div class="card">
           <h2>🏆🍕 Copa Pizza Meridional</h2>
+          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
           <div id="copaPizza"></div>
+        </div>
+      </section>
+
+      <section id="reportes" class="section">
+        <div class="card">
+          <h2>📊 Reportes del Concurso</h2>
+          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
+
+          <div class="report-grid">
+            <div class="report-card">
+              <span>🏆</span>
+              <p>Líder actual</p>
+              <h3>Sucursal Castro</h3>
+            </div>
+
+            <div class="report-card">
+              <span>🍕</span>
+              <p>Pizzas ganadas</p>
+              <h3>3</h3>
+            </div>
+
+            <div class="report-card">
+              <span>🎯</span>
+              <p>Pronósticos acertados</p>
+              <h3>27</h3>
+            </div>
+
+            <div class="report-card">
+              <span>📈</span>
+              <p>Cumplimiento promedio</p>
+              <h3>82%</h3>
+            </div>
+          </div>
+
+          <div class="share-report">
+            <button onclick="compartirPartidos()">📲 Compartir Partidos</button>
+            <button onclick="compartirMetas()">📈 Compartir Metas</button>
+          </div>
         </div>
       </section>
 
       <section id="admin" class="section">
         <div class="card">
           <h2>⚙️ Administración</h2>
-          <p>Cargar metas, avances y resultados en Google Sheets.</p>
+          <button class="back-home" onclick="showSection('inicio')">← Volver al inicio</button>
 
           <label>URL Apps Script</label>
           <input id="apiUrl" placeholder="Pega aquí la URL del Apps Script" />
 
           <button class="primary" onclick="guardarApi()">Guardar conexión</button>
 
-          <p class="small">
-            Luego conectaremos esta web al Google Sheets con Code.gs.
-          </p>
+          <p class="small">Luego conectaremos esta web al Google Sheets con Code.gs.</p>
         </div>
       </section>
+
     </main>
   </div>
+
+  <button class="floating-home" onclick="showSection('inicio')">🏠</button>
 
   <script src="script.js"></script>
 </body>
