@@ -31,7 +31,6 @@ body{
 .screen{display:none}
 .screen.active{display:block}
 
-/* SPLASH */
 #splashScreen{
   position:fixed;
   inset:0;
@@ -54,10 +53,8 @@ body{
 @keyframes loading{from{width:0}to{width:100%}}
 #loadingText{display:block;margin-top:12px;color:var(--muted);font-size:13px}
 
-/* APP */
 .app{width:100%;max-width:760px;margin:0 auto;padding:12px;padding-bottom:94px}
 
-/* BASE */
 .hero-card,.info-card,.form-card,.success-card,.matches-section,.prediction-card,.bet-card{
   background:linear-gradient(180deg,rgba(28,20,48,.94),rgba(12,10,18,.98));
   border:1px solid var(--border);
@@ -80,7 +77,19 @@ body{
 .hero-row small{color:var(--muted);font-size:11px}
 .hero-row strong{display:block;margin-top:3px;font-size:14px}
 
-/* BANNER */
+.image-banner{
+  overflow:hidden;
+  border-radius:20px;
+  margin-bottom:10px;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 10px 28px rgba(111,0,255,.28);
+  background:#120024;
+}
+.image-banner img{
+  width:100%;
+  display:block;
+}
+
 .banner-wom{
   background:linear-gradient(135deg,#6f00ff,#2b085c 60%,#ff2f92);
   border:1px solid rgba(255,255,255,.18);
@@ -89,9 +98,10 @@ body{
   margin-bottom:10px;
   box-shadow:0 10px 28px rgba(111,0,255,.28);
 }
-.banner-wom h2{font-size:20px;margin-bottom:8px}
-.banner-wom p{color:#f2eaff;font-size:14px;margin-bottom:10px}
-.banner-wom strong{display:block;font-size:14px;margin-bottom:12px}
+.banner-tag{font-size:11px;font-weight:900;color:#ffd9ef;letter-spacing:.6px}
+.banner-wom h2{font-size:20px;margin:8px 0}
+.banner-wom p{color:#f2eaff;font-size:14px;margin-bottom:10px;line-height:1.35}
+.banner-prize{display:block;font-size:14px;margin-bottom:12px;font-weight:900}
 .banner-wom button{
   width:100%;
   border:none;
@@ -102,17 +112,13 @@ body{
   background:rgba(255,255,255,.14);
 }
 
-/* INFO */
 .info-card,.form-card,.success-card,.matches-section{padding:13px;margin-bottom:10px}
 .info-card h2,.form-card h2{font-size:17px;margin-bottom:8px}
 .info-card p{color:var(--muted);font-size:14px}
-.prize-card{border-left:4px solid var(--pink);background:linear-gradient(135deg,rgba(111,0,255,.35),rgba(18,16,28,.98))}
 
-/* TITLES */
 .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .section-title h2{font-size:17px}
 
-/* LISTS */
 .match-list,.bet-list,.prediction-list,.goals-list,.results-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
 
 .match-card{
@@ -129,38 +135,32 @@ body{
 .match-teams{font-size:14px;font-weight:800}
 .match-teams span{color:#c7b6ff;font-size:11px;margin:0 5px}
 
-/* BUTTONS */
 .primary-btn,.secondary-btn,.share-btn{width:100%;border:none;cursor:pointer;border-radius:15px;padding:13px;font-size:14px;font-weight:900}
 .primary-btn{background:linear-gradient(135deg,var(--wom),var(--pink));color:white;box-shadow:0 8px 24px rgba(111,0,255,.28)}
 .secondary-btn{background:#211832;color:white;margin-top:8px;border:1px solid rgba(151,82,255,.18)}
 .share-btn{background:linear-gradient(135deg,#16a34a,#22c55e);color:white;margin-top:10px}
 
-/* HEADER */
 .screen-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .screen-header button{width:38px;height:38px;border:none;border-radius:12px;background:#211832;color:white;border:1px solid rgba(151,82,255,.20)}
 .screen-header h1{font-size:21px}
 
-/* FORM */
 label{display:block;margin-bottom:6px;font-weight:800;font-size:13px}
 input,select{width:100%;border:none;outline:none;background:#211832;color:white;border-radius:12px;padding:12px;font-size:14px;border:1px solid rgba(151,82,255,.16)}
 .bet-card{padding:12px}
 .bet-card h3{font-size:13px;color:var(--pink);margin-bottom:5px}
 .bet-card p{font-size:14px;font-weight:800;margin-bottom:8px}
 
-/* SUCCESS */
 .success-box{margin-top:12px}
 .success-card{border-left:4px solid var(--green)}
 .success-card h2{font-size:18px;margin-bottom:6px}
 .success-card p,.success-card small{color:var(--muted);font-size:13px}
 
-/* PRONOSTICOS */
 .prediction-card{padding:13px}
 .prediction-card h3{font-size:16px;margin-bottom:4px}
 .prediction-card small{color:var(--muted);font-size:11px}
 .prediction-card p{color:var(--muted);margin-top:8px;font-size:13px}
 .prediction-card strong{color:white}
 
-/* METAS */
 .goal-row{
   background:linear-gradient(135deg,rgba(111,0,255,.22),rgba(20,12,35,.96));
   border:1px solid rgba(151,82,255,.28);
@@ -177,18 +177,15 @@ input,select{width:100%;border:none;outline:none;background:#211832;color:white;
 .kpi-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--wom),var(--pink));border-radius:20px}
 .kpi-line b{color:var(--muted);font-size:11px;text-align:right}
 
-/* RULES */
 .rules-card h2{margin-top:14px;margin-bottom:6px;font-size:17px}
 .rules-card h2:first-child{margin-top:0}
 .rules-card p,.rules-card li{color:var(--muted);font-size:14px;line-height:1.4}
 .rules-card ul{padding-left:20px;margin-bottom:8px}
 
-/* RESULTS */
 .result-card{background:#211832;border-radius:13px;padding:10px;border:1px solid rgba(151,82,255,.14)}
 .result-card strong{display:block;margin-bottom:4px;font-size:13px}
 .result-card p,.result-card small{color:var(--muted);font-size:12px}
 
-/* MENU */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -206,12 +203,11 @@ input,select{width:100%;border:none;outline:none;background:#211832;color:white;
 .bottom-nav button{background:none;border:none;color:white;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:17px}
 .bottom-nav small{font-size:9px}
 
-/* RESPONSIVE */
 @media(min-width:768px){
   .app{max-width:1050px;padding:20px;padding-bottom:100px}
   #inicio{display:none}
   #inicio.active{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
-  #inicio .hero-card,#inicio .banner-wom,#inicio .prize-card,#inicio .primary-btn{grid-column:1}
+  #inicio .hero-card,#inicio .image-banner,#inicio .banner-wom,#inicio .primary-btn{grid-column:1}
   #inicio .matches-section{grid-column:2;grid-row:1 / span 4}
   .screen.active:not(#inicio){max-width:760px;margin:0 auto}
 }
