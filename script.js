@@ -22,34 +22,10 @@ const jornada = {
   premio: "🍕 Pizza para la tienda ganadora",
   condicion: "Mínimo 1 WOMGO vendido",
   partidos: [
-    {
-      hora: "15:00",
-      local: "Estados Unidos",
-      visita: "Australia",
-      resultado: "Pendiente",
-      ganador: ""
-    },
-    {
-      hora: "18:00",
-      local: "Escocia",
-      visita: "Marruecos",
-      resultado: "Pendiente",
-      ganador: ""
-    },
-    {
-      hora: "21:00",
-      local: "Brasil",
-      visita: "Haití",
-      resultado: "Pendiente",
-      ganador: ""
-    },
-    {
-      hora: "00:00",
-      local: "Turquía",
-      visita: "Paraguay",
-      resultado: "Pendiente",
-      ganador: ""
-    }
+    { hora: "15:00", local: "Estados Unidos", visita: "Australia", resultado: "Pendiente", ganador: "" },
+    { hora: "18:00", local: "Escocia", visita: "Marruecos", resultado: "Pendiente", ganador: "" },
+    { hora: "21:00", local: "Brasil", visita: "Haití", resultado: "Pendiente", ganador: "" },
+    { hora: "00:00", local: "Turquía", visita: "Paraguay", resultado: "Pendiente", ganador: "" }
   ]
 };
 
@@ -108,7 +84,6 @@ function iniciarSplash() {
 
   const intervalo = setInterval(() => {
     index++;
-
     if (loadingText && textos[index]) {
       loadingText.textContent = textos[index];
     }
@@ -116,7 +91,6 @@ function iniciarSplash() {
 
   setTimeout(() => {
     clearInterval(intervalo);
-
     const splash = document.getElementById("splashScreen");
     const app = document.getElementById("app");
 
@@ -135,15 +109,13 @@ function showSection(id) {
   });
 
   const section = document.getElementById(id);
+  if (section) section.classList.add("active");
 
-  if (section) {
-    section.classList.add("active");
-  }
+  if (id === "pronosticos") cargarPronosticos();
+  if (id === "resultados") cargarResultados();
+  if (id === "condicionMeta") cargarMetas();
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 /* =========================
@@ -156,7 +128,6 @@ function cargarInicio() {
   setText("premioDia", jornada.premio);
 
   const partidosHoy = document.getElementById("partidosHoy");
-
   if (!partidosHoy) return;
 
   partidosHoy.innerHTML = jornada.partidos.map(partido => `
@@ -178,7 +149,6 @@ function cargarFormularioApuesta() {
 
   if (tiendaSelect) {
     tiendaSelect.innerHTML = `<option value="">Seleccionar tienda</option>`;
-
     tiendas.forEach(tienda => {
       tiendaSelect.innerHTML += `<option value="${tienda}">${tienda}</option>`;
     });
@@ -189,7 +159,7 @@ function cargarFormularioApuesta() {
   if (formPartidos) {
     formPartidos.innerHTML = jornada.partidos.map((partido, index) => `
       <div class="bet-card">
-        <h3>${partido.hora}</h3>
+        <h3>⚽ ${partido.hora}</h3>
         <p>${partido.local} VS ${partido.visita}</p>
 
         <select id="pronostico_${index}">
@@ -213,9 +183,7 @@ function guardarApuesta() {
     return;
   }
 
-  const yaExiste = apuestas.find(
-    a => a.tienda === tienda && a.jornada === jornada.numero
-  );
+  const yaExiste = apuestas.find(a => a.tienda === tienda && a.jornada === jornada.numero);
 
   if (yaExiste) {
     alert("Esta tienda ya registró su apuesta. No puede modificarse.");
@@ -242,6 +210,7 @@ function guardarApuesta() {
   }
 
   const registro = {
+    id: `${jornada.numero}_${tienda}_${Date.now()}`,
     jornada: jornada.numero,
     fechaJornada: jornada.fecha,
     tienda,
@@ -253,7 +222,9 @@ function guardarApuesta() {
     })
   };
 
+  apuestas = apuestas.filter(a => !(a.tienda === tienda && a.jornada === jornada.numero));
   apuestas.push(registro);
+
   localStorage.setItem("apuestas_wom", JSON.stringify(apuestas));
 
   ultimaApuesta = registro;
@@ -272,18 +243,13 @@ function mostrarApuestaGuardada(registro) {
 
   if (btnGuardar) btnGuardar.style.display = "none";
   if (box) box.classList.remove("hidden");
-  if (fecha) {
-    fecha.textContent = `Registrada: ${registro.fechaRegistro} · ${registro.horaRegistro}`;
-  }
+  if (fecha) fecha.textContent = `Registrada: ${registro.fechaRegistro} · ${registro.horaRegistro}`;
 
   if (tienda) tienda.disabled = true;
 
   jornada.partidos.forEach((_, index) => {
     const select = document.getElementById(`pronostico_${index}`);
-
-    if (select) {
-      select.disabled = true;
-    }
+    if (select) select.disabled = true;
   });
 }
 
@@ -296,7 +262,6 @@ function resetFormularioApuesta() {
 
   jornada.partidos.forEach((_, index) => {
     const select = document.getElementById(`pronostico_${index}`);
-
     if (select) {
       select.disabled = false;
       select.value = "";
@@ -306,32 +271,25 @@ function resetFormularioApuesta() {
 
 function revisarApuestaBloqueada() {
   const tiendaSelect = document.getElementById("tienda");
-
   if (!tiendaSelect) return;
 
-  tiendaSelect.addEventListener("change", () => {
+  tiendaSelect.onchange = () => {
     const tienda = tiendaSelect.value;
-
     resetFormularioApuesta();
 
-    const registrada = apuestas.find(
-      a => a.tienda === tienda && a.jornada === jornada.numero
-    );
+    const registrada = apuestas.find(a => a.tienda === tienda && a.jornada === jornada.numero);
 
     if (registrada) {
       ultimaApuesta = registrada;
 
       registrada.elecciones.forEach((eleccion, index) => {
         const select = document.getElementById(`pronostico_${index}`);
-
-        if (select) {
-          select.value = eleccion.eleccion;
-        }
+        if (select) select.value = eleccion.eleccion;
       });
 
       mostrarApuestaGuardada(registrada);
     }
-  });
+  };
 }
 
 /* =========================
@@ -339,11 +297,12 @@ function revisarApuestaBloqueada() {
 ========================= */
 
 function cargarPronosticos() {
-  const lista = document.getElementById("listaPronosticos");
+  apuestas = JSON.parse(localStorage.getItem("apuestas_wom") || "[]");
 
+  const lista = document.getElementById("listaPronosticos");
   if (!lista) return;
 
-  const data = apuestas.filter(a => a.jornada === jornada.numero);
+  const data = apuestas.filter(a => Number(a.jornada) === Number(jornada.numero));
 
   if (!data.length) {
     lista.innerHTML = `
@@ -357,11 +316,12 @@ function cargarPronosticos() {
   lista.innerHTML = data.map(apuesta => `
     <div class="prediction-card">
       <h3>🏪 ${apuesta.tienda}</h3>
+      <small class="prediction-date">Registrada: ${apuesta.fechaRegistro} · ${apuesta.horaRegistro}</small>
 
       ${apuesta.elecciones.map(e => `
         <p>
-          <strong>${e.partido}</strong><br>
-          ➡️ Elegimos: ${e.eleccion}
+          <strong>⚽ ${e.partido}</strong><br>
+          <span>➡️ Elegimos: ${e.eleccion}</span>
         </p>
       `).join("")}
     </div>
@@ -376,7 +336,6 @@ function cargarMetas() {
   setText("condicionDia", jornada.condicion);
 
   const contenedor = document.getElementById("metasTienda");
-
   if (!contenedor) return;
 
   contenedor.innerHTML = metas.map(meta => {
@@ -403,7 +362,7 @@ function cargarResultados() {
   if (resultadosPartidos) {
     resultadosPartidos.innerHTML = jornada.partidos.map(partido => `
       <div class="result-card">
-        <strong>${partido.local} VS ${partido.visita}</strong>
+        <strong>⚽ ${partido.local} VS ${partido.visita}</strong>
         <p>${partido.resultado}</p>
         <small>${partido.ganador ? `Ganador: ${partido.ganador}` : "Pendiente"}</small>
       </div>
@@ -411,7 +370,6 @@ function cargarResultados() {
   }
 
   const resultadoFinal = document.getElementById("resultadoJornada");
-
   if (!resultadoFinal) return;
 
   if (resultadoJornada.estado === "ganador") {
@@ -439,9 +397,7 @@ function cargarResultados() {
       </div>
     `;
   } else {
-    resultadoFinal.innerHTML = `
-      <p>${resultadoJornada.mensaje}</p>
-    `;
+    resultadoFinal.innerHTML = `<p>${resultadoJornada.mensaje}</p>`;
   }
 }
 
@@ -461,79 +417,76 @@ function compartirApuesta() {
 
   const ctx = canvas.getContext("2d");
 
-  ctx.fillStyle = "#07070b";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
   const grad = ctx.createLinearGradient(0, 0, 1080, 1350);
-  grad.addColorStop(0, "rgba(111,0,255,.35)");
-  grad.addColorStop(0.45, "rgba(255,47,146,.12)");
-  grad.addColorStop(1, "rgba(7,7,11,1)");
+  grad.addColorStop(0, "#16002e");
+  grad.addColorStop(0.35, "#07070b");
+  grad.addColorStop(1, "#270050");
 
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  ctx.fillStyle = "rgba(111,0,255,.22)";
+  ctx.beginPath();
+  ctx.arc(920, 120, 180, 0, Math.PI * 2);
+  ctx.fill();
+
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 64px Arial";
-  ctx.fillText("MUNDIAL", 70, 110);
+  ctx.font = "bold 58px Arial";
+  ctx.fillText("🏆⚽ MUNDIAL", 70, 105);
 
   ctx.fillStyle = "#ff2f92";
-  ctx.font = "bold 64px Arial";
-  ctx.fillText("MULTIPRODUCTO", 70, 180);
+  ctx.font = "bold 60px Arial";
+  ctx.fillText("MULTIPRODUCTO", 70, 175);
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 34px Arial";
-  ctx.fillText("WOM MERIDIONAL", 70, 235);
+  ctx.fillText("WOM MERIDIONAL", 70, 230);
 
-  drawCanvasCard(ctx, 70, 290, 940, 120);
+  drawCanvasCard(ctx, 70, 285, 940, 145);
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 38px Arial";
-  ctx.fillText(ultimaApuesta.tienda.toUpperCase(), 110, 360);
+  ctx.font = "bold 40px Arial";
+  ctx.fillText(`🏪 ${ultimaApuesta.tienda.toUpperCase()}`, 110, 350);
 
   ctx.fillStyle = "#22c55e";
   ctx.font = "bold 34px Arial";
-  ctx.fillText("✅ APUESTA OFICIAL", 110, 415);
+  ctx.fillText("✅ APUESTA OFICIAL", 110, 405);
 
-  ctx.fillStyle = "#a7b0c0";
+  ctx.fillStyle = "#c9c3da";
   ctx.font = "28px Arial";
-  ctx.fillText(`Jornada ${ultimaApuesta.jornada} de ${jornada.total}`, 110, 465);
+  ctx.fillText(`Jornada ${ultimaApuesta.jornada} de ${jornada.total}`, 110, 455);
 
-  let y = 550;
+  let y = 525;
 
   ultimaApuesta.elecciones.forEach(e => {
-    drawCanvasCard(ctx, 70, y, 940, 145);
+    drawCanvasCard(ctx, 70, y, 940, 150);
 
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 30px Arial";
-    ctx.fillText(e.partido, 110, y + 50);
+    ctx.fillText(`⚽ ${e.partido}`, 110, y + 52);
 
     ctx.fillStyle = "#ff2f92";
-    ctx.font = "bold 32px Arial";
-    ctx.fillText(`➡️ Elegimos: ${e.eleccion}`, 110, y + 105);
+    ctx.font = "bold 34px Arial";
+    ctx.fillText(`➡️ Elegimos: ${e.eleccion}`, 110, y + 110);
 
-    y += 165;
+    y += 168;
   });
 
-  ctx.fillStyle = "#a7b0c0";
+  ctx.fillStyle = "#c9c3da";
   ctx.font = "28px Arial";
-  ctx.fillText(
-    `Registrada: ${ultimaApuesta.fechaRegistro} · ${ultimaApuesta.horaRegistro}`,
-    70,
-    1240
-  );
+  ctx.fillText(`Registrada: ${ultimaApuesta.fechaRegistro} · ${ultimaApuesta.horaRegistro}`, 70, 1245);
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 30px Arial";
-  ctx.fillText("Pronostica • Cumple • Compite • Gana", 70, 1295);
+  ctx.fillText("Pronostica • Cumple • Compite • Gana", 70, 1300);
 
   compartirCanvas(canvas, "apuesta-wom.png");
 }
 
 function drawCanvasCard(ctx, x, y, w, h) {
-  ctx.fillStyle = "rgba(17,19,26,.92)";
-  ctx.strokeStyle = "rgba(255,255,255,.12)";
+  ctx.fillStyle = "rgba(22,14,40,.92)";
+  ctx.strokeStyle = "rgba(151,82,255,.42)";
   ctx.lineWidth = 3;
-
   roundRect(ctx, x, y, w, h, 28, true, true);
 }
 
@@ -569,7 +522,6 @@ function compartirCanvas(canvas, nombre) {
       a.href = url;
       a.download = nombre;
       a.click();
-
       alert("Imagen generada. Se descargó para compartir por WhatsApp.");
     }
   });
@@ -598,7 +550,6 @@ function cargarAdmin() {
 
 function guardarApi() {
   const input = document.getElementById("apiUrl");
-
   if (!input) return;
 
   apiUrl = input.value.trim();
@@ -612,6 +563,7 @@ function limpiarApuestas() {
 
   localStorage.removeItem("apuestas_wom");
   apuestas = [];
+  ultimaApuesta = null;
 
   cargarPronosticos();
   cargarFormularioApuesta();
@@ -621,7 +573,6 @@ function limpiarApuestas() {
 
 function reabrirApuestaAdmin() {
   const tienda = prompt("Nombre exacto de la tienda a reabrir:");
-
   if (!tienda) return;
 
   apuestas = apuestas.filter(
@@ -642,8 +593,5 @@ function reabrirApuestaAdmin() {
 
 function setText(id, value) {
   const el = document.getElementById(id);
-
-  if (el) {
-    el.textContent = value;
-  }
+  if (el) el.textContent = value;
 }
