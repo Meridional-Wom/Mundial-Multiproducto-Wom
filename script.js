@@ -45,8 +45,6 @@ function getApiUrl(){
 async function cargarDesdeServidor(showAlert=false){
   try{
     const url = getApiUrl();
-    if(!url){ usarFallback(); return; }
-
     const res = await fetch(`${url}?action=getData&t=${Date.now()}`);
     const data = await res.json();
     if(!data || data.ok === false) throw new Error("Respuesta inválida");
@@ -56,7 +54,7 @@ async function cargarDesdeServidor(showAlert=false){
   }catch(e){
     console.warn(e);
     usarFallback();
-    if(showAlert) alert("No se pudo actualizar desde Google Sheets. Revisa la URL Apps Script.");
+    if(showAlert) alert("No se pudo actualizar desde Google Sheets. Revisa Apps Script.");
   }
 }
 
@@ -78,7 +76,7 @@ function usarFallback(){
   config = fallback.config;
   partidos = fallback.partidos;
   metas = fallback.metas;
-  pronosticos = JSON.parse(localStorage.getItem("pronosticos_wom") || "[]");
+  pronosticos = [];
   tiendas = obtenerTiendasDesdeMetas(metas);
 }
 
@@ -183,11 +181,10 @@ function obtenerTiendasDesdeMetas(rows){ return [...new Set(rows.map(m => m.Tien
 async function probarConexion(){
   try{
     const url = getApiUrl();
-    if(!url){ alert("Primero pega la URL Apps Script."); return; }
     const res = await fetch(`${url}?action=ping&t=${Date.now()}`);
     const data = await res.json();
     alert(data.ok ? "Conexión OK." : "La URL responde, pero no entregó OK.");
-  }catch(e){ alert("No conecta. Revisa la URL /exec y permisos del Apps Script."); }
+  }catch(e){ alert("No conecta. Revisa Apps Script."); }
 }
 
 function iniciarSplash(){
@@ -197,7 +194,7 @@ function iniciarSplash(){
   setTimeout(()=>{clearInterval(inter);document.getElementById("splashScreen").style.display="none";document.getElementById("app").classList.remove("hidden");},4000);
 }
 
-function renderAll(){cargarInicio();cargarFormularioApuesta();cargarPronosticos();cargarMetas();cargarResultados();cargarAdmin();}
+function renderAll(){cargarInicio();cargarFormularioApuesta();cargarPronosticos();cargarMetas();cargarResultados();}
 function showSection(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById(id)?.classList.add("active");
@@ -284,7 +281,6 @@ async function guardarApuesta(){
 
   try{
     const url=getApiUrl();
-    if(!url) throw new Error("API no configurada");
     const res=await fetch(url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
     const respuesta=await res.json();
     if(!respuesta.ok) throw new Error(respuesta.error || "Error al guardar");
@@ -391,8 +387,6 @@ function validarAdmin(){
   document.getElementById("adminLogin")?.classList.add("hidden");
   document.getElementById("adminContent")?.classList.remove("hidden");
 }
-function cargarAdmin(){const input=document.getElementById("apiUrl");if(input)input.value=getApiUrl();}
-function guardarApi(){const input=document.getElementById("apiUrl");if(!input)return;localStorage.setItem("api_wom",input.value.trim());alert("Conexión guardada.");}
 function limpiarApuestasLocales(){localStorage.removeItem("pronosticos_wom");alert("Caché local limpiado.");}
 
 function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value;}
