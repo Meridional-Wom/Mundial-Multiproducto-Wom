@@ -67,7 +67,7 @@ const metas = [
 ];
 
 const resultadoJornada = {
-  estado: "pendiente", 
+  estado: "pendiente",
   ganador: "",
   aciertos: 0,
   mensaje: "El ganador de la jornada será informado al cierre."
@@ -108,6 +108,7 @@ function iniciarSplash() {
 
   const intervalo = setInterval(() => {
     index++;
+
     if (loadingText && textos[index]) {
       loadingText.textContent = textos[index];
     }
@@ -134,9 +135,15 @@ function showSection(id) {
   });
 
   const section = document.getElementById(id);
-  if (section) section.classList.add("active");
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (section) {
+    section.classList.add("active");
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 /* =========================
@@ -150,16 +157,16 @@ function cargarInicio() {
 
   const partidosHoy = document.getElementById("partidosHoy");
 
-  if (partidosHoy) {
-    partidosHoy.innerHTML = jornada.partidos.map(partido => `
-      <div class="match-card">
-        <div class="match-time">${partido.hora}</div>
-        <div class="match-teams">
-          ${partido.local} <span>VS</span> ${partido.visita}
-        </div>
+  if (!partidosHoy) return;
+
+  partidosHoy.innerHTML = jornada.partidos.map(partido => `
+    <div class="match-card">
+      <div class="match-time">${partido.hora}</div>
+      <div class="match-teams">
+        ${partido.local} <span>VS</span> ${partido.visita}
       </div>
-    `).join("");
-  }
+    </div>
+  `).join("");
 }
 
 /* =========================
@@ -181,14 +188,12 @@ function cargarFormularioApuesta() {
 
   if (formPartidos) {
     formPartidos.innerHTML = jornada.partidos.map((partido, index) => `
-      <div class="form-card">
+      <div class="bet-card">
         <h3>${partido.hora}</h3>
         <p>${partido.local} VS ${partido.visita}</p>
 
-        <label>Elige tu apuesta</label>
-
         <select id="pronostico_${index}">
-          <option value="">Seleccionar</option>
+          <option value="">Seleccionar ganador</option>
           <option value="${partido.local}">${partido.local}</option>
           <option value="Empate">Empate</option>
           <option value="${partido.visita}">${partido.visita}</option>
@@ -208,7 +213,9 @@ function guardarApuesta() {
     return;
   }
 
-  const yaExiste = apuestas.find(a => a.tienda === tienda && a.jornada === jornada.numero);
+  const yaExiste = apuestas.find(
+    a => a.tienda === tienda && a.jornada === jornada.numero
+  );
 
   if (yaExiste) {
     alert("Esta tienda ya registró su apuesta. No puede modificarse.");
@@ -265,13 +272,35 @@ function mostrarApuestaGuardada(registro) {
 
   if (btnGuardar) btnGuardar.style.display = "none";
   if (box) box.classList.remove("hidden");
-  if (fecha) fecha.textContent = `Registrada: ${registro.fechaRegistro} · ${registro.horaRegistro}`;
+  if (fecha) {
+    fecha.textContent = `Registrada: ${registro.fechaRegistro} · ${registro.horaRegistro}`;
+  }
 
   if (tienda) tienda.disabled = true;
 
   jornada.partidos.forEach((_, index) => {
     const select = document.getElementById(`pronostico_${index}`);
-    if (select) select.disabled = true;
+
+    if (select) {
+      select.disabled = true;
+    }
+  });
+}
+
+function resetFormularioApuesta() {
+  const btnGuardar = document.getElementById("btnGuardar");
+  const box = document.getElementById("apuestaGuardada");
+
+  if (btnGuardar) btnGuardar.style.display = "block";
+  if (box) box.classList.add("hidden");
+
+  jornada.partidos.forEach((_, index) => {
+    const select = document.getElementById(`pronostico_${index}`);
+
+    if (select) {
+      select.disabled = false;
+      select.value = "";
+    }
   });
 }
 
@@ -282,28 +311,22 @@ function revisarApuestaBloqueada() {
 
   tiendaSelect.addEventListener("change", () => {
     const tienda = tiendaSelect.value;
-    const registrada = apuestas.find(a => a.tienda === tienda && a.jornada === jornada.numero);
 
-    const btnGuardar = document.getElementById("btnGuardar");
-    const box = document.getElementById("apuestaGuardada");
+    resetFormularioApuesta();
 
-    jornada.partidos.forEach((_, index) => {
-      const select = document.getElementById(`pronostico_${index}`);
-      if (select) {
-        select.disabled = false;
-        select.value = "";
-      }
-    });
-
-    if (btnGuardar) btnGuardar.style.display = "block";
-    if (box) box.classList.add("hidden");
+    const registrada = apuestas.find(
+      a => a.tienda === tienda && a.jornada === jornada.numero
+    );
 
     if (registrada) {
       ultimaApuesta = registrada;
 
       registrada.elecciones.forEach((eleccion, index) => {
         const select = document.getElementById(`pronostico_${index}`);
-        if (select) select.value = eleccion.eleccion;
+
+        if (select) {
+          select.value = eleccion.eleccion;
+        }
       });
 
       mostrarApuestaGuardada(registrada);
@@ -324,7 +347,7 @@ function cargarPronosticos() {
 
   if (!data.length) {
     lista.innerHTML = `
-      <div class="info-card">
+      <div class="info-card compact-card">
         <p>Aún no hay apuestas registradas.</p>
       </div>
     `;
@@ -363,9 +386,8 @@ function cargarMetas() {
     return `
       <div class="goal-row">
         <strong>${meta.tienda}</strong>
-        <span>${meta.avance} / ${meta.meta} ventas · ${porcentaje}%</span>
-        <br>
-        <span>${compite ? "✅ En competencia" : "❌ Pendiente condición/meta"}</span>
+        <span>${meta.avance}/${meta.meta} · ${porcentaje}%</span>
+        <span>${compite ? "✅ Compite" : "❌ Pendiente"}</span>
       </div>
     `;
   }).join("");
@@ -403,14 +425,14 @@ function cargarResultados() {
     `;
   } else if (resultadoJornada.estado === "sin_ganador") {
     resultadoFinal.innerHTML = `
-      <div class="info-card">
+      <div class="info-card compact-card">
         <h2>⚠️ Sin ganador</h2>
         <p>Ninguna tienda cumplió los requisitos para obtener el premio.</p>
       </div>
     `;
   } else if (resultadoJornada.estado === "empate") {
     resultadoFinal.innerHTML = `
-      <div class="info-card">
+      <div class="info-card compact-card">
         <h2>🤝 Empate</h2>
         <p>${resultadoJornada.ganador}</p>
         <p>🎁 Premio compartido</p>
@@ -576,6 +598,7 @@ function cargarAdmin() {
 
 function guardarApi() {
   const input = document.getElementById("apiUrl");
+
   if (!input) return;
 
   apiUrl = input.value.trim();
@@ -601,7 +624,10 @@ function reabrirApuestaAdmin() {
 
   if (!tienda) return;
 
-  apuestas = apuestas.filter(a => !(a.tienda === tienda && a.jornada === jornada.numero));
+  apuestas = apuestas.filter(
+    a => !(a.tienda === tienda && a.jornada === jornada.numero)
+  );
+
   localStorage.setItem("apuestas_wom", JSON.stringify(apuestas));
 
   cargarPronosticos();
@@ -616,5 +642,8 @@ function reabrirApuestaAdmin() {
 
 function setText(id, value) {
   const el = document.getElementById(id);
-  if (el) el.textContent = value;
+
+  if (el) {
+    el.textContent = value;
+  }
 }
