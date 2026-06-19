@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mundial Multiproducto WOM</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1>WOM</h1>
+      <h2>Mundial<br>Multiproducto<br>2026</h2>
+
+      <nav>
+        <button onclick="showSection('inicio')">🏠 Inicio</button>
+        <button onclick="showSection('apuesta')">⚽ Apuesta de Hoy</button>
+        <button onclick="showSection('pronosticos')">📢 Pronósticos</button>
+        <button onclick="showSection('marcador')">🔥 Marcador</button>
+        <button onclick="showSection('copa')">🏆🍕 Copa Pizza</button>
+        <button onclick="showSection('admin')">⚙️ Admin</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section id="inicio" class="section active">
+        <div class="hero">
+          <div>
+            <p>Jornada actual</p>
+            <h2 id="jornadaActual">Jornada 1 de 7</h2>
+          </div>
+          <div>
+            <p>Cierre de apuestas</p>
+            <h2 id="contador">13:00 PM</h2>
+          </div>
+          <div>
+            <p>Tiendas</p>
+            <h2>10</h2>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>⚽ Partidos de Hoy</h3>
+            <div id="partidosHoy"></div>
+          </div>
+
+          <div class="card trophy">
+            <h3>🏆🍕 Campeón de la Jornada Anterior</h3>
+            <h2 id="campeonAyer">Pendiente</h2>
+            <p>Pizza ganada</p>
+          </div>
+
+          <div class="card">
+            <h3>📈 Requisitos Comerciales</h3>
+            <p>Accesorios + Seguros + WOMGO</p>
+            <p class="small">La apuesta solo es válida si la tienda cumple los 3 requisitos.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="apuesta" class="section">
+        <div class="card">
+          <h2>⚽ Apuesta de Hoy</h2>
+
+          <label>Tienda</label>
+          <select id="tienda"></select>
+
+          <label>Responsable</label>
+          <input id="responsable" placeholder="Nombre responsable" />
+
+          <div id="formPartidos"></div>
+
+          <button class="primary" onclick="guardarApuesta()">Enviar / Editar Apuesta</button>
+          <p class="small">Puedes modificar tu apuesta hasta las 13:00.</p>
+        </div>
+      </section>
+
+      <section id="pronosticos" class="section">
+        <div class="card">
+          <h2>📢 Pronósticos de la Jornada</h2>
+          <p class="small">Se muestran después del cierre de apuestas.</p>
+          <div id="tablaPronosticos"></div>
+        </div>
+      </section>
+
+      <section id="marcador" class="section">
+        <div class="card">
+          <h2>🔥 Marcador Mundialista</h2>
+          <div id="marcadorTabla"></div>
+          <p class="small">Ranking deportivo referencial sujeto a validación comercial.</p>
+        </div>
+      </section>
+
+      <section id="copa" class="section">
+        <div class="card">
+          <h2>🏆🍕 Copa Pizza Meridional</h2>
+          <div id="copaPizza"></div>
+        </div>
+      </section>
+
+      <section id="admin" class="section">
+        <div class="card">
+          <h2>⚙️ Administración</h2>
+          <p>Cargar metas, avances y resultados en Google Sheets.</p>
+
+          <label>URL Apps Script</label>
+          <input id="apiUrl" placeholder="Pega aquí la URL del Apps Script" />
+
+          <button class="primary" onclick="guardarApi()">Guardar conexión</button>
+
+          <p class="small">
+            Luego conectaremos esta web al Google Sheets con Code.gs.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
